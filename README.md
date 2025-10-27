@@ -71,11 +71,14 @@ claude-code/
 ```
 
 The script will:
-- Backup existing `~/.claude/CLAUDE.md` (if present and not a symlink)
-- Create symlinks for:
+- Backup any existing configuration files (with timestamp)
+- Remove existing files to avoid conflicts
+- Create symlinks using the **module version** (module is source of truth):
   - `~/.claude/CLAUDE.md` → `dotfiles/claude/.claude/CLAUDE.md`
   - `~/.config/ccstatusline/settings.json` → `dotfiles/claude/.config/ccstatusline/settings.json`
-- Validate symlinks were created successfully
+- Validate all symlinks were created successfully
+
+**Important:** The module version is always used. If you have existing local files, they will be backed up (with timestamp) but the repository version will take precedence. This ensures you always get the latest configuration when cloning the repo on a new machine.
 
 ## What's Included
 
