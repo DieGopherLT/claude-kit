@@ -1,0 +1,17 @@
+{
+  "name": "diegopher",
+  "owner": {
+    "name": "Diego López Torres",
+    "email": "diego@diegopher.dev"
+  },
+  "plugins": [
+    {
+      "name": "claude-kit",
+      "description": "My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.",
+      "source": {
+        "source": "github",
+        "repo": "DieGopherLT/claude-kit"
+      }
+    }
+  ]
+}
