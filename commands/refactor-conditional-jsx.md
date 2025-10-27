@@ -1,5 +1,5 @@
 ---
-description: |
+description: >-
   Automatically invoked for FULL PROJECT refactoring of React JSX code involving template strings in className attributes and conditional rendering patterns. This is NOT a partial or incremental refactoring tool - it performs a comprehensive codebase-wide transformation.
 
   **Critical: This is a project-wide operation**

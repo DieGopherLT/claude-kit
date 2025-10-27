@@ -1,5 +1,5 @@
 ---
-description: |
+description: >-
   Advanced sequential thinking command for complex problem-solving through structured analysis.
 
   **When to use this command:**
