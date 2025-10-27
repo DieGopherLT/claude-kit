@@ -1,0 +1,19 @@
+{
+  "name": "diegopher-claude-config",
+  "version": "1.0.0",
+  "description": "Diego's curated Claude Code commands, agents, skills, and MCP servers. Includes custom slash commands for code review, testing, scaffolding, security scanning, specialized agents for quality auditing and UI implementation, plus sequential-thinking and context7 MCP servers.",
+  "author": {
+    "name": "Diego",
+    "url": "https://github.com/DieGopherLT"
+  },
+  "repository": "https://github.com/DieGopherLT/claude-code",
+  "license": "MIT",
+  "keywords": [
+    "commands",
+    "agents",
+    "skills",
+    "productivity",
+    "code-quality",
+    "development-workflow"
+  ]
+}
