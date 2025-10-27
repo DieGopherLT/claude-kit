@@ -15,5 +15,6 @@
     "productivity",
     "code-quality",
     "development-workflow"
-  ]
+  ],
+  "mcpServers": "./.mcp.json"
 }
