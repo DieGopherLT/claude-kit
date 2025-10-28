@@ -5,25 +5,16 @@
       {
         "id": "1",
         "type": "model",
-        "color": "cyan"
+        "color": "yellow"
       },
       {
         "id": "2",
         "type": "separator"
       },
       {
-        "id": "3",
-        "type": "context-length",
-        "color": "brightBlack"
-      },
-      {
-        "id": "4",
-        "type": "separator"
-      },
-      {
         "id": "5",
         "type": "git-branch",
-        "color": "magenta"
+        "color": "brightRed"
       },
       {
         "id": "6",
@@ -32,11 +23,35 @@
       {
         "id": "7",
         "type": "git-changes",
-        "color": "yellow"
+        "color": "cyan"
+      },
+      {
+        "id": "4545038e-d5ef-4d53-93a8-dc1fd5d35992",
+        "type": "separator"
+      },
+      {
+        "id": "ed03a23f-711b-46e1-a509-a2d33a0b04d1",
+        "type": "output-style",
+        "color": "brightBlue"
+      },
+      {
+        "id": "e4243245-edaf-4cae-9754-465dd3986320",
+        "type": "separator"
+      },
+      {
+        "id": "78541693-1559-4a4f-b22a-156e5ee7e71f",
+        "type": "version"
+      },
+      {
+        "id": "4",
+        "type": "separator"
+      },
+      {
+        "id": "3",
+        "type": "context-length",
+        "color": "black"
       }
-    ],
-    [],
-    []
+    ]
   ],
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
