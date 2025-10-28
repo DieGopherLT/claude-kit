@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/bin/fish
 
 # Get the directory where this script lives
 set SCRIPT_DIR (dirname (status --current-filename))
