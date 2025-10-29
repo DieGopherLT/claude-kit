@@ -1,3 +1,7 @@
+---
+description: Create smart git commits with quality checks. Triggers: commit, stage changes, git add
+---
+
 # Smart Git Commit
 
 I'll analyze your changes and create a meaningful commit message.

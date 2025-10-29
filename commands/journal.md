@@ -1,3 +1,7 @@
+---
+description: Create structured development memory entry for Serena. Triggers: journal, save memory, document work session, save progress
+---
+
 # Journal Command for Claude Code
 
 ## Command Definition

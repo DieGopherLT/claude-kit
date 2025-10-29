@@ -1,3 +1,7 @@
+---
+description: Remove redundant comments, preserve valuable documentation. Triggers: clean comments, comment cleanup, code hygiene, remove obvious comments
+---
+
 # Remove Obvious Comments
 
 I'll clean up redundant comments while preserving valuable documentation.

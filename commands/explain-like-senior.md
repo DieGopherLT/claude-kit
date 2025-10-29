@@ -1,3 +1,7 @@
+---
+description: Explain code from senior perspective (WHY over WHAT). Triggers: explain, senior review, trade-offs, architectural decision, code rationale
+---
+
 # Senior Developer Explanation
 
 I'll explain this code as a senior developer would, focusing on the why behind decisions.

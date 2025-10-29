@@ -1,4 +1,8 @@
-# Predictive Code Analysis  
+---
+description: Predict potential code problems before production impact. Triggers: predict, risk analysis, code smell, technical debt, scalability issues
+---
+
+# Predictive Code Analysis
 
 I'll analyze your codebase to predict potential problems before they impact your project.
 

@@ -81,23 +81,36 @@ Commands support optional YAML frontmatter for enhanced functionality and docume
 
 #### description
 
-Brief explanation shown in `/help` output. Makes commands more discoverable.
+Brief explanation shown in `/help` output. Makes commands more discoverable and enables proactive invocation via triggers.
+
+**Format**: Keep under 120 characters. Include action verb and trigger keywords.
 
 ```yaml
 ---
-description: Review this code for security issues, including authentication, input validation, and access control patterns
+description: Review code for security vulnerabilities. Triggers: security, vulnerability, authentication, input validation
 ---
 ```
 
-**Format**: Use inline format with `\n` for line breaks when descriptions span multiple paragraphs or include lists.
-
-```yaml
----
-description: Review code for security vulnerabilities.\n\n**Focus areas:**\n- Authentication and authorization\n- Input validation\n- Access control
----
+**Pattern**:
+```
+[ACTION VERB]: [OUTCOME in <50 chars]. Triggers: keyword1, keyword2, keyword3
 ```
 
-**Best practice**: Keep descriptions concise but informative. Focus on what the command does and when to use it. Use inline format with explicit `\n` for better readability when viewing command metadata.
+**Examples**:
+- `Analyze: Predict potential code problems. Triggers: predict, risk analysis, code smell, technical debt`
+- `Generate: Create smart git commits with quality checks. Triggers: commit, stage changes, git add`
+- `Refactor: Project-wide React JSX optimization. ⚠️ Full codebase operation. Triggers: migrate clsx, refactor jsx`
+
+**Trigger Keywords**: These enable Claude to proactively invoke your command. Include natural language phrases users might say:
+- Action words: create, generate, analyze, predict, refactor, explain
+- Problem indicators: bug, issue, error, smell, debt, complexity
+- Context words: deploy, production, scale, performance, security
+
+**Best practice**:
+- Keep main description under 120 characters
+- Add warning icon `⚠️` for destructive/project-wide commands
+- Triggers should be comma-separated, lowercase, specific keywords
+- No descriptions longer than 2 lines in the YAML value
 
 #### allowed-tools
 
@@ -168,7 +181,7 @@ disable-model-invocation: true
 
 ```yaml
 ---
-description: Review pull request for security vulnerabilities and best practices.\n\n**Focus areas:**\n- Authentication and data validation\n- Access control patterns\n- Error handling and edge cases\n- Performance and resource usage
+description: Review pull request for security and best practices. Triggers: review pr, security review, code quality, pr analysis
 argument-hint: [pr-number]
 allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*)
 model: claude-opus-4
@@ -433,17 +446,23 @@ Fix imports, format code, run tests, update docs, and deploy
 
 ### Provide Clear Descriptions
 
-Make commands discoverable through good documentation:
+Make commands discoverable through good documentation and enable proactive invocation:
 
-**Good**:
+**Good** (with triggers for proactive invocation):
 ```yaml
-description: Review pull request for security vulnerabilities, focusing on authentication, data validation, and access control
+description: Review pull request for security and best practices. Triggers: review pr, security review, code quality
 argument-hint: [pr-number]
 ```
 
-**Avoid**:
+**Avoid** (vague descriptions without triggers):
 ```yaml
 description: Reviews stuff
+```
+
+**Better than good** (includes warning for critical operations):
+```yaml
+description: Project-wide React JSX refactoring (clsx + conditionals). ⚠️ Full codebase operation. Triggers: migrate clsx, refactor jsx
+model: haiku
 ```
 
 ### Use Frontmatter to Constrain Tool Access
@@ -493,7 +512,7 @@ Use subdirectories for logical grouping:
 
 ```yaml
 ---
-description: Comprehensive pull request review covering code quality, security, and best practices.\n\n**Review focuses on:**\n- Security vulnerabilities and authentication\n- Performance implications and resource usage\n- Code style consistency and maintainability\n- Test coverage and edge cases
+description: Review pull request for security and code quality. Triggers: review pr, security review, code quality, pr analysis
 argument-hint: [pr-number]
 allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*)
 model: claude-opus-4
@@ -517,7 +536,7 @@ Review PR #$1:
 
 ```yaml
 ---
-description: Generate conventional commit message from staged changes.\n\n**Follows conventional commits format:**\n- type(scope): brief description\n- Detailed explanation if needed\n- Breaking changes if applicable
+description: Generate conventional commit message from staged changes. Triggers: commit, stage changes, git add, commit message
 allowed-tools: Bash(git diff:*)
 ---
 
@@ -534,7 +553,7 @@ Based on the above changes, generate a commit message following conventional com
 
 ```markdown
 ---
-description: Review file or directory for code quality, bugs, and improvements.\n\n**Review categories:**\n- Code quality and naming conventions\n- Potential bugs and edge cases\n- Performance optimizations and best practices
+description: Review code for quality, bugs, and improvements. Triggers: review, code review, refactor, quality, improve code
 argument-hint: [path]
 ---
 
@@ -560,7 +579,7 @@ Review @$1 for:
 
 ```yaml
 ---
-description: Process multiple files with a specific operation.\n\n**Process:**\n1. Find files matching pattern\n2. Read and analyze contents\n3. Apply transformation\n4. Show proposed changes with confirmation
+description: Process multiple files with a specific operation. Triggers: batch process, find and replace, transform files, apply to all
 argument-hint: [pattern] [operation]
 allowed-tools: Bash(find:*)
 ---
