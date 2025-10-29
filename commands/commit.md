@@ -1,10 +1,16 @@
 ---
 description: Create smart git commits with quality checks. Triggers: commit, stage changes, git add
+argument-hint: 'short' | 'detailed'
 ---
 
 # Smart Git Commit
 
 I'll analyze your changes and create a meaningful commit message.
+
+**Usage:**
+
+- `/commit` or `/commit short` - Single-line commit message
+- `/commit detailed` - Multi-line commit with bulleted changes
 
 **Pre-Commit Quality Checks:**
 Before committing, I'll verify:
@@ -14,7 +20,22 @@ Before committing, I'll verify:
 - Linter passes (if lint command exists)
 - No obvious errors in changed files
 
-First, let me check if this is a git repository and what's changed:
+First, let me validate the format argument and check if this is a git repository:
+
+```bash
+# Detect format preference (default: short)
+FORMAT="${1:-short}"
+
+if [[ "$FORMAT" != "short" && "$FORMAT" != "detailed" ]]; then
+    echo "Error: Invalid format. Use 'short' or 'detailed'"
+    echo "Usage: /commit [short|detailed]"
+    exit 1
+fi
+
+echo "Commit format: $FORMAT"
+```
+
+Now checking repository status and changes:
 
 ```bash
 # Verify we're in a git repository
@@ -61,16 +82,34 @@ fi
 git diff --cached --name-status
 ```
 
-Based on the analysis, I'll create a conventional commit message:
+Based on the analysis, I'll create a conventional commit message in your chosen format:
 
-- **Type**: feat|fix|docs|style|refactor|test|chore
-- **Scope**: component or area affected (optional)
-- **Subject**: clear description in present tense
-- **Body**: why the change was made (if needed)
+**Format: SHORT** (single-line header only)
 
-```bash
-# I'll create the commit with the analyzed message
-# Example: git commit -m "fix(auth): resolve login timeout issue"
+```
+type(scope): clear description in present tense
+```
+
+Example: `git commit -m "fix(auth): resolve login timeout issue"`
+
+**Format: DETAILED** (header + bulleted changes)
+
+```
+type(scope): clear description in present tense
+
+- Specific change 1
+- Specific change 2
+- Specific change 3
+```
+
+Example:
+
+```
+git commit -m "feat(auth): add JWT token validation
+
+- Add token expiry check in middleware
+- Implement refresh token rotation
+- Update error messages for expired tokens"
 ```
 
 The commit message will be concise, meaningful, and follow your project's conventions if I can detect them from recent commits.
