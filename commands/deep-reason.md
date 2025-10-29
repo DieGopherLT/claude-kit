@@ -1,26 +1,5 @@
 ---
-description: >-
-  Advanced sequential thinking command for complex problem-solving through structured analysis.
-
-  **When to use this command:**
-  - Algorithmic problems requiring step-by-step decomposition
-  - Architectural decisions with multiple trade-offs to evaluate
-  - Complex debugging scenarios with non-obvious root causes
-  - Trade-off analysis between competing solutions or approaches
-  - Solution design requiring hypothesis generation and verification
-
-  **What this command does:**
-  - Uses the sequential thinking MCP tool to break down complex problems
-  - Performs iterative analysis with the ability to revise and refine thoughts
-  - Generates and verifies hypotheses systematically
-  - Produces structured reasoning output in paper format
-  - Optionally saves the complete analysis as a markdown file
-
-  **Automatic invocation triggers:**
-  This command should be invoked when the user explicitly asks for deep analysis, systematic problem-solving, or mentions: "analyze thoroughly", "think step by step", "evaluate trade-offs", "debug complex issue", "architectural decision", "algorithm design", "ultrathink", "deep reasoning".
-
-  **Arguments:**
-  Accepts a problem description as argument. Example: `/deep-reason How should I implement caching for a distributed system with eventual consistency?`
+description: Advanced sequential thinking command for complex problem-solving through structured analysis.\n\n**When to use this command:**\n- Algorithmic problems requiring step-by-step decomposition\n- Architectural decisions with multiple trade-offs to evaluate\n- Complex debugging scenarios with non-obvious root causes\n- Trade-off analysis between competing solutions or approaches\n- Solution design requiring hypothesis generation and verification\n\n**What this command does:**\n- Uses the sequential thinking MCP tool to break down complex problems\n- Performs iterative analysis with the ability to revise and refine thoughts\n- Generates and verifies hypotheses systematically\n- Produces structured reasoning output in paper format\n- Optionally saves the complete analysis as a markdown file\n\n**Automatic invocation triggers:**\nThis command should be invoked when the user explicitly asks for deep analysis, systematic problem-solving, or mentions: "analyze thoroughly", "think step by step", "evaluate trade-offs", "debug complex issue", "architectural decision", "algorithm design", "ultrathink", "deep reasoning".\n\n**Arguments:**\nAccepts a problem description as argument. Example: `/deep-reason How should I implement caching for a distributed system with eventual consistency?`
 ---
 
 # Deep Reasoning Analysis

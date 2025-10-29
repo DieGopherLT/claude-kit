@@ -1,14 +1,5 @@
 ---
-description: >
-  Generates or updates a token-efficient CLAUDE.md documentation file for a specific module or directory. This command uses the specialized Explore agent to deeply analyze the module and creates comprehensive yet concise documentation focused on business logic, entry points, key files, dependencies, and modification guidelines. If CLAUDE.md already exists, it uses it as baseline context to improve and update the documentation.
-
-  When to use: Before diving into unfamiliar modules, onboarding team members, after refactoring, when you need to understand business logic of a feature, or to update outdated documentation.
-
-  What it does: Checks for existing CLAUDE.md, launches Explore agent for thorough analysis (using existing docs as context if available), identifies entry points and key files, infers business logic and patterns, generates or updates CLAUDE.md in the module directory with token-efficient structure.
-
-  Arguments: $1 (required) - Path to module/directory
-
-  Example: /claudify src/auth, /claudify packages/core, /claudify cmd/api
+description: Generates or updates a token-efficient CLAUDE.md documentation file for a specific module or directory. This command uses the specialized Explore agent to deeply analyze the module and creates comprehensive yet concise documentation focused on business logic, entry points, key files, dependencies, and modification guidelines. If CLAUDE.md already exists, it uses it as baseline context to improve and update the documentation.\n\nWhen to use: Before diving into unfamiliar modules, onboarding team members, after refactoring, when you need to understand business logic of a feature, or to update outdated documentation.\n\nWhat it does: Checks for existing CLAUDE.md, launches Explore agent for thorough analysis (using existing docs as context if available), identifies entry points and key files, infers business logic and patterns, generates or updates CLAUDE.md in the module directory with token-efficient structure.\n\nArguments: $1 (required) - Path to module/directory\n\nExample: /claudify src/auth, /claudify packages/core, /claudify cmd/api
 model: sonnet
 argument-hint: <module-path>
 ---

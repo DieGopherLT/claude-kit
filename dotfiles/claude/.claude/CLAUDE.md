@@ -4,6 +4,8 @@
 
 - **Name**: Diego
 - **GitHub**: DieGopherLT
+- **Role**: Software Engineer
+- **Email**: <diego@diegopher.dev>
 
 ## User relevant information
 
@@ -13,10 +15,13 @@
   - I have multiple vaults for different purposes (personal, work, projects)
   - Ask to confirm the path where to save a note
 - **Preferred programming languages**: Go, TypeScript, C#
+- My terminal shell is **fish**.
 
 ## Session Behavior
 
-- **CRITICAL**: Ask for clarification on ANY ambiguous requirements before proceeding
+- When asking questions, use proactively `AskUserQuestion` tool.
+  - Specially when you have suggestions or questions are closed.
+- If not in plan mode and user mentions a plan, **use the plan tool**.
 
 ## Code Standards
 
@@ -31,7 +36,7 @@
 - Control flow: guard clauses at function start, return early to avoid nesting
 - Function parameters: use config object when 3+ parameters
 - Organization: group related code with blank lines between distinct concepts
-- Comments: only for non-obvious technical decisions, never for self-explanatory code
+- Comments: only for non-obvious technical decisions, never for self-explanatory code or redundant information
 
 ### Functional Programming
 
@@ -77,6 +82,8 @@ Evaluate if user requests has:
 - **2 or more independent components/areas/plans** that don't depend on each other's results
 - **Domain expertise needed**: UI/UX design, architecture, refactoring, code review.
 - **Parallelizable work**: Can be done simultaneously without conflicts
+
+In general terms, try use them proactively to save context and improve efficiency.
 
 #### Code Exploration Strategy (MANDATORY for Opus)
 
@@ -142,6 +149,10 @@ Depth: [quick/medium/very thorough]
 #### Context7
 
 - **Purpose**: up-to-date third-party package documentation
+- **Use when**:
+  - User requests info on libraries/packages
+  - Implementing features with external dependencies
+  - Debugging issues related to third-party code
 - **Use before**:
   - Changing dependency configurations
   - Adding new dependencies and configurations

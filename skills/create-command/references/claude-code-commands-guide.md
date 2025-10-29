@@ -85,11 +85,19 @@ Brief explanation shown in `/help` output. Makes commands more discoverable.
 
 ```yaml
 ---
-description: Review this code for security issues
+description: Review this code for security issues, including authentication, input validation, and access control patterns
 ---
 ```
 
-**Best practice**: Keep descriptions concise (1-2 sentences). Focus on what the command does and when to use it.
+**Format**: Use inline format with `\n` for line breaks when descriptions span multiple paragraphs or include lists.
+
+```yaml
+---
+description: Review code for security vulnerabilities.\n\n**Focus areas:**\n- Authentication and authorization\n- Input validation\n- Access control
+---
+```
+
+**Best practice**: Keep descriptions concise but informative. Focus on what the command does and when to use it. Use inline format with explicit `\n` for better readability when viewing command metadata.
 
 #### allowed-tools
 
@@ -160,7 +168,7 @@ disable-model-invocation: true
 
 ```yaml
 ---
-description: Review pull request for security vulnerabilities and best practices
+description: Review pull request for security vulnerabilities and best practices.\n\n**Focus areas:**\n- Authentication and data validation\n- Access control patterns\n- Error handling and edge cases\n- Performance and resource usage
 argument-hint: [pr-number]
 allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*)
 model: claude-opus-4
@@ -249,6 +257,78 @@ Create a task for user $1 with priority $2: $ARGUMENTS
 2. **Provide defaults** for optional arguments
 3. **Validate arguments** when possible (check if files exist, numbers are valid, etc.)
 4. **Give helpful error messages** when arguments are missing or invalid
+
+## Description Format: Inline with Explicit Newlines
+
+The recommended format for multi-line descriptions uses inline text with explicit `\n` escape sequences instead of YAML folded scalars (`>` or `>-`). This approach provides better readability when viewing command metadata in searches and help output.
+
+### Why Inline Format?
+
+**Advantages of inline format with `\n`:**
+
+- ✅ Descriptions are fully visible in `/help` searches and command lists
+- ✅ Clear, readable structure in IDE viewers and git diffs
+- ✅ Consistent with sub-agent documentation standards
+- ✅ Better metadata visibility across tools
+
+**Disadvantages of YAML folded scalars (`>` or `>-`):**
+
+- ❌ Only shows the `>` character in search results, not the description
+- ❌ Harder to read metadata in command lists
+- ❌ Inconsistent with other documentation formats
+
+### Format Comparison
+
+**Before (using `>`):**
+
+```yaml
+description: >
+  Review pull request for security vulnerabilities.
+
+  When to use: Complex PRs needing deep analysis
+
+  Focuses on: Authentication, input validation, access control
+```
+
+In searches, this shows only: `description: >`
+
+**After (inline with `\n`):**
+
+```yaml
+description: Review pull request for security vulnerabilities.\n\nWhen to use: Complex PRs needing deep analysis\n\nFocuses on: Authentication, input validation, access control
+```
+
+In searches, this shows the full description with proper formatting.
+
+### How to Write Inline Descriptions
+
+**Paragraph breaks:** Use `\n\n` (double newline)
+
+```yaml
+description: First paragraph.\n\nSecond paragraph.
+```
+
+**Lists:** Use `\n-` for each item
+
+```yaml
+description: Main description.\n\nItems:\n- Item one\n- Item two\n- Item three
+```
+
+**Bold text:** Use `**text**` for emphasis
+
+```yaml
+description: Overview.\n\n**Focus areas:**\n- Security\n- Performance
+```
+
+### Migration Guide
+
+If you have existing commands with `>` or `>-` descriptions:
+
+1. Copy the description text
+2. Remove indentation (YAML adds 2-space indent with `>`)
+3. Replace actual line breaks with `\n`
+4. Replace blank lines with `\n\n`
+5. Test the description appears correctly in `/help`
 
 ## Advanced Features
 
@@ -413,7 +493,7 @@ Use subdirectories for logical grouping:
 
 ```yaml
 ---
-description: Comprehensive pull request review covering code quality, security, and best practices
+description: Comprehensive pull request review covering code quality, security, and best practices.\n\n**Review focuses on:**\n- Security vulnerabilities and authentication\n- Performance implications and resource usage\n- Code style consistency and maintainability\n- Test coverage and edge cases
 argument-hint: [pr-number]
 allowed-tools: Bash(gh pr view:*), Bash(gh pr diff:*)
 model: claude-opus-4
@@ -437,7 +517,7 @@ Review PR #$1:
 
 ```yaml
 ---
-description: Generate conventional commit message from staged changes
+description: Generate conventional commit message from staged changes.\n\n**Follows conventional commits format:**\n- type(scope): brief description\n- Detailed explanation if needed\n- Breaking changes if applicable
 allowed-tools: Bash(git diff:*)
 ---
 
@@ -454,7 +534,7 @@ Based on the above changes, generate a commit message following conventional com
 
 ```markdown
 ---
-description: Review file or directory for code quality, bugs, and improvements
+description: Review file or directory for code quality, bugs, and improvements.\n\n**Review categories:**\n- Code quality and naming conventions\n- Potential bugs and edge cases\n- Performance optimizations and best practices
 argument-hint: [path]
 ---
 
@@ -480,7 +560,7 @@ Review @$1 for:
 
 ```yaml
 ---
-description: Process multiple files with a specific operation
+description: Process multiple files with a specific operation.\n\n**Process:**\n1. Find files matching pattern\n2. Read and analyze contents\n3. Apply transformation\n4. Show proposed changes with confirmation
 argument-hint: [pattern] [operation]
 allowed-tools: Bash(find:*)
 ---
