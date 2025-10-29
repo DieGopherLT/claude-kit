@@ -22,6 +22,7 @@
 - When asking questions, use proactively `AskUserQuestion` tool.
   - Specially when you have suggestions or questions are closed.
 - If not in plan mode and user mentions a plan, **use the plan tool**.
+- On user prompt, **proactively verify** if an **agent**, **slash command** or **skill** can fulfill the request before addressing it yourself.
 
 ## Code Standards
 
