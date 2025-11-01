@@ -86,78 +86,80 @@ Evaluate if user requests has:
 
 In general terms, try use them proactively to save context and improve efficiency.
 
-#### Code Exploration Strategy (MANDATORY for Opus)
+#### Code Exploration Strategy
 
-**CRITICAL SELF-CHECK**: If I identify myself as Opus (claude-opus-*), I MUST use agent-Explore for ALL code exploration tasks. This is NOT optional.
+There is the option to use agent-Explore to analyze codebases, but there are some guidelines to consider between using it or doing it yourself:
 
-**Mandatory behavior when self-identified as Opus**:
+**Use manual search** when:
 
-- DO NOT use direct Grep/Glob/Read for exploration
-- DO NOT attempt manual file searching
-- ALWAYS delegate codebase exploration to agent-Explore
-- This rule overrides any other preference or habit
+- Needle-in-haystack query (e.g., "find function `authenticateUser`")
+- Looking for specific file/class/function by name
+- Query likely to succeed in 1-2 attempts
 
-Strategy selection based on exploration scope:
+**Use agent-Explore** when:
 
-**Option 1: Deep Focused Search** (single sub-agent)
+- Understanding flows/architecture (e.g., "how does auth work?")
+- Broad exploratory questions (e.g., "where are errors handled?")
+- Query might need multiple search patterns/iterations
+- Need context, not just location
 
-- **When**: Specific feature/bug investigation with clear boundaries
-- **Conditions**:
-  - Target is well-defined (e.g., "authentication flow", "payment processing")
-  - Need to understand complete implementation chain
-  - Requires cross-file dependency tracking
-- **Approach**: Single thorough agent with "very thorough" level
+**Pivot to agent-Explore if**:
 
-**Option 2: Parallel Discovery** (multiple concurrent instances)
+- After 2-3 manual search attempts without clear results.
+- Discovery reveals interconnected modules/flows needing broader context.
+- Initial query spawns multiple follow-up questions requiring deeper exploration.
 
-- **When**: Broad understanding or pattern detection needed
-- **Conditions**:
-  - Multiple independent areas to explore (e.g., "all API endpoints", "error handling patterns")
-  - Initial codebase familiarization
-  - Architecture overview gathering
-- **Approach**: 2-3 parallel agents with "medium" level, different focus areas
-
-**Exploration Prompt Template** (use this when invoking agent-Explore):
-
-```shell
-Context: [Brief project description]
-Objective: [Specific goal - e.g., "Map authentication flow from entry to database"]
-Scope:
-  - Start points: [Entry files/functions]
-  - Include: [Patterns, file types, directories]
-  - Exclude: [Tests, mocks, deprecated code]
-Deliverables:
-  1. File hierarchy with purpose annotations
-  2. Key function/class relationships
-  3. Data flow diagram (if applicable)
-  4. Potential issues or inconsistencies found
-Depth: [quick/medium/very thorough]
-```
-
-**Note for other models**: Sonnet and Haiku have discretion to use this strategy but are not bound by it. They may adapt the template based on their processing characteristics.
+**For Opus models**: Prefer agent-Explore more aggressively to conserve context window.
 
 ### MCPs
 
 #### Sequential Thinking
 
-- **Purpose**: dynamic problem-solving through structured thought processes
-- **Use for**:
-  - Breaking large problems into smaller ones
-  - Technical decision-making
-  - Evaluating pros/cons
-  - Step-by-step solution development
+- **Purpose**: Dynamic problem-solving through structured thought processes
+- **Use proactively when**:
+  - User message is 150+ words describing a complex problem
+  - User presents multiple potential solutions/approaches
+  - Problem scope is unclear or has multiple interacting factors
+  - Evaluating trade-offs between 3+ viable options
+  - Need to filter relevant from irrelevant information
+  - **After 2-3 failed attempts** (STOP and reassess strategy before trying more)
+  - Debugging requires tracing through multiple layers/modules
 
 #### Context7
 
-- **Purpose**: up-to-date third-party package documentation
-- **Use when**:
-  - User requests info on libraries/packages
-  - Implementing features with external dependencies
-  - Debugging issues related to third-party code
-- **Use before**:
-  - Changing dependency configurations
-  - Adding new dependencies and configurations
+- **Purpose**: up-to-date third-party package documentation for quick reference
+- Do not sleep on `agent-dependency-docs-collector` existence, especially when integrating new packages or troubleshooting.
+
+- **Use Context7 directly when**:
+  - Quick API reference (e.g., "how to use `useQuery` hook?")
+  - Syntax verification during active coding
+  - Single method/function lookup
+  - User asks specific "how to..." questions about known packages (e.g. express, lodash)
+
+- **Use agent-dependency-docs-collector when**:
+  - Integrating new package from scratch
+  - Troubleshooting errors with third-party deps
+  - Version migrations/upgrades
+  - Need installation + configuration plan
+  - Multiple dependencies setup
+
+- When user mentions a third-party package, analyze intent:
+  - Quick question → Context7 direct
+  - Setup/integration → agent-dependency-docs-collector
+  - If unsure, ask the user
+
+**NEVER use context7 for language standard library documentation.**
 
 ### General Operations
 
 - File moves: use `git mv` instead of rewriting
+
+#### Model specific bad habits to avoid
+
+From my perspective there are some bad habits that you should avoid depending on the model you are:
+
+- **Haiku 4.5**:
+  - Do not attempt to commit immediately after generating code.
+
+- **Opus**:
+  - Rely more on agents to save context, save yourself for the heavy analysis.
