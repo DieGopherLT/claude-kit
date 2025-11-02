@@ -67,6 +67,14 @@
 - className: use clsx or similar library over template strings
 - JSX conditionals: use && operator, handle all cases explicitly (no ternaries)
 
+**When proposing UI/UX changes:**
+
+- Read theme configuration first (tailwind.config.js, theme.ts, design tokens, explore for styles)
+- Detect existing color palette and spacing scale
+- Respect established patterns unless there's a strong reason to deviate
+- Ask before introducing new colors or breaking existing design system
+- Validate information hierarchy (primary user goal = visual dominance)
+
 ### Language
 
 - Code: English only
