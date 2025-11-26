@@ -9,11 +9,6 @@
 
 ## User relevant information
 
-- **Obsidian Vaults path**: ~/shared/Files/vaults
-  - In this location all my vaults are stored
-  - I use Obsidian for note-taking and knowledge management
-  - I have multiple vaults for different purposes (personal, work, projects)
-  - Ask to confirm the path where to save a note
 - **Preferred programming languages**: Go, TypeScript, C#
 - My terminal shell is **fish**.
 
@@ -117,7 +112,7 @@ There is the option to use agent-Explore to analyze codebases, but there are som
 - Discovery reveals interconnected modules/flows needing broader context.
 - Initial query spawns multiple follow-up questions requiring deeper exploration.
 
-**For Opus models**: Prefer agent-Explore more aggressively to conserve context window.
+**For Opus models**: Prefer agent-Explore more aggressively to conserve context window. In plan mode replace agent-Explore with agent-Plan.
 
 ### MCPs
 
@@ -161,6 +156,7 @@ There is the option to use agent-Explore to analyze codebases, but there are som
 ### General Operations
 
 - File moves: use `git mv` instead of rewriting
+- When commiting code, do not include any co-authorying information.
 
 #### Model specific bad habits to avoid
 

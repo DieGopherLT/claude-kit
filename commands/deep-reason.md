@@ -30,6 +30,7 @@ You MUST use the `mcp__sequential-thinking__sequentialthinking` tool to solve th
 - Mark thoughts that revise previous analysis
 - Continue until you reach a satisfactory, well-reasoned solution
 - Provide a clear, actionable answer as the final output
+- When considering multiple approaches, use  `mcp__sequential-thinking__sequentialthinking` branches.
 
 ## Output Format
 

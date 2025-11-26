@@ -1,6 +1,6 @@
 # Agent Prompts for Codebase Analysis
 
-This file contains the prompts for the 4 Explore agents used to analyze the codebase.
+This file contains the prompts for the 3 Explore agents used to analyze the codebase.
 
 ---
 
@@ -58,59 +58,8 @@ Medium thoroughness
 
 ---
 
-## Agent 2: Quality Analysis
 
-### Context
-
-Compare findings with existing AGENTS.md Antipatterns section if available.
-
-### Objective
-
-Identify code quality issues, technical debt, and antipatterns that need gradual correction.
-
-### Scope
-
-**Start Points**: Main source directories
-
-**Include**: Implementation files, business logic, service layers, data access layers
-
-**Exclude**: Tests (unless patterns problematic), configuration, build scripts, documentation
-
-### Deliverables
-
-1. **Antipatterns Found** - God objects, duplicated code, magic numbers, poor separation, tight coupling
-2. **Code Smells** - Long methods, large classes, dead code, commented code, TODOs
-3. **Inconsistencies** - Mixed naming, varied error handling, different logging, API inconsistencies
-4. **Technical Debt** - Deprecated dependencies, outdated patterns, missing docs, incomplete implementations
-
-### Depth
-
-Medium thoroughness
-
-### Output Format
-
-```markdown
-## Antipatterns to Address
-
-### [Category 1]
-
-**Issue**: [Description]
-**Locations**: `file:line` - [specific issue]
-**Recommended Action**: [Fix strategy]
-**Priority**: [Low/Medium/High]
-
-### [Category 2]
-
-**Issue**: [Description]
-**Occurrences**: [Number] instances
-**Examples**: `file1:line`, `file2:line`
-**Recommended Action**: [Strategy]
-**Priority**: [Low/Medium/High]
-```
-
----
-
-## Agent 3: Project Structure Analysis
+## Agent 2: Project Structure Analysis
 
 ### Context
 
@@ -166,7 +115,7 @@ project/
 
 ---
 
-## Agent 4: Build & Tooling Analysis
+## Agent 3: Build & Tooling Analysis
 
 ### Context
 

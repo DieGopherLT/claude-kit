@@ -55,14 +55,13 @@ Generates three core documentation files:
 
 ### Phase 2: Parallel Codebase Analysis with Explore Agents
 
-**Deploy 3-4 Explore agents (medium thoroughness) in parallel using Task tool.**
+**Deploy 3 Explore agents (medium thoroughness) in parallel using Task tool.**
 
 **Agent prompts**: See `agent-prompts.md` for detailed instructions for each agent:
 
 - **Agent 1: Code Patterns** → Development Standards section
-- **Agent 2: Quality Analysis** → Antipatterns to Address section
-- **Agent 3: Project Structure** → Compact directory tree for Quick Reference
-- **Agent 4: Build & Tooling** → Essential Commands + Build & Development section
+- **Agent 2: Project Structure** → Compact directory tree for Quick Reference
+- **Agent 3: Build & Tooling** → Essential Commands + Build & Development section
 
 **Each agent receives:**
 
@@ -88,6 +87,8 @@ Generates three core documentation files:
 - `templates/CLAUDE.md` - Minimal entry point structure
 - `templates/AGENTS.md` - Complete technical guidelines structure
 - `templates/README.md` - Business-focused documentation structure
+
+Follow all templates closely to ensure consistency and token efficiency.
 
 **Key points:**
 

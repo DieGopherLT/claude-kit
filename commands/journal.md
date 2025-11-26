@@ -1,25 +1,24 @@
 ---
-description: Create structured development memory entry for Serena. Triggers: journal, save memory, document work session, save progress
+description: Create structured development memory entry based on recent development work. Triggers: journal, save memory, document work session, save progress
 ---
 
 # Journal Command for Claude Code
 
 ## Command Definition
 
-**Purpose**: Create a structured memory entry for Serena based on recent development work
+**Purpose**: Create a structured memory entry based on recent development work
 
 ## Behavior
 
-When `/journal` is executed in a Claude Code session, it should:
-
 1. **Auto-detect Context**: Extract project name from current directory/git repository
-2. **Gather Recent Changes**: Analyze recent commits and modified files
+2. **Gather Recent Changes**: Analyze recent commits and modified files and knowledge generated during the session
 3. **Generate Memory**: Create formatted memory entry using available context
-4. **Store in Serena**: Use Serena tools to save the memory
 
 ## Memory title
 
 <date>_<descriptive-title>.md
+
+Save on root directory unless user specifies otherwise.
 
 ## Template Structure
 

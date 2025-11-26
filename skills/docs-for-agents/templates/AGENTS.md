@@ -81,37 +81,6 @@ project-name/
 
 **[Practice 3]**: [Description]
 
-## Antipatterns to Address
-
-[Document problems that need gradual correction, with specific file locations]
-
-### [Antipattern Category 1]
-
-**Issue**: [Brief description of the problem]
-
-**Locations**:
-
-- `[path/to/file.ext:line]` - [Specific issue]
-- `[path/to/another.ext:line]` - [Specific issue]
-
-**Recommended Action**: [How to gradually fix this]
-
-**Priority**: [Low/Medium/High]
-
----
-
-### [Antipattern Category 2]
-
-**Issue**: [Brief description]
-
-**Locations**:
-
-- `[path/to/file.ext:line]`
-
-**Recommended Action**: [Fix strategy]
-
-**Priority**: [Low/Medium/High]
-
 ## Build & Development
 
 [Detailed information about scripts, commands, and development workflow]

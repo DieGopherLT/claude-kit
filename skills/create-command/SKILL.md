@@ -26,6 +26,7 @@ Use `Glob` to search for existing commands: `**/*.md`
 
 **If command does NOT exist:**
 
+- If the user already stated how to scope the command (personal vs project), skip the next question.
 - Use `AskUserQuestion` to ask if this should be:
   - Personal command (`~/.claude/commands/`) - available across all projects
   - Project command (`.claude/commands/`) - shared with team via git
@@ -50,6 +51,7 @@ Use `Glob` and `Read` to examine existing commands in both locations.
 ## Step 3: Gather Information (Iterative)
 
 Use a combination of `AskUserQuestion` (for multiple choice) and open questions (for free text).
+**Omit all questions about information the user has already provided**.
 
 **Questions to ask:**
 
@@ -79,15 +81,15 @@ Slash commands can optionally include YAML frontmatter:
 
 ```yaml
 ---
-description: [Minimum 512 characters, maximum 1024 characters]
-model: [optional - e.g., claude-sonnet-4, claude-opus-4]
+description: [Brief description to take at most 2 lines in the UI, choose the wording carefully]
+argument-hint: <argument-hint-if-applicable>
 ---
 ```
 
 **Description requirements (if including frontmatter):**
 
-- Minimum 512 characters
-- Maximum 1024 characters
+- Minimum 1 lines
+- Maximum 2 lines
 - Must include:
   - Clear explanation of when to use this command
   - What the command does

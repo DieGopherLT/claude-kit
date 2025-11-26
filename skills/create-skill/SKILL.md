@@ -11,6 +11,8 @@ You are helping the user create or improve a Claude Code skill. Follow this work
 
 ## Step 1: Verify Existence
 
+IMPORTANT: **Omit this step if user specifies the skill scope beforehand**.
+
 Search for the skill in both locations:
 
 - Personal: `~/.claude/skills/`
@@ -49,6 +51,8 @@ Use `Glob` and `Read` to examine existing skills in both locations.
 ## Step 3: Gather Information (Iterative)
 
 Use a combination of `AskUserQuestion` (for multiple choice) and open questions (for free text).
+If the user already provided some information, context about the skill, or specific requirements, incorporate that into your questions to refine and clarify.
+So, **do not ask for information the user has already given**.
 
 **Questions to ask:**
 
@@ -71,14 +75,14 @@ The YAML frontmatter MUST include:
 ```yaml
 ---
 name: skill-name-here
-description: [Minimum 512 characters, maximum 1024 characters]
+description: [Minimum 256 characters, maximum 512 characters]
 ---
 ```
 
 **Description requirements:**
 
-- Minimum 512 characters
-- Maximum 1024 characters
+- Minimum 256 characters
+- Maximum 512 characters
 - **Always write in third person** (injected into system prompt)
   - ✅ Good: "Processes Excel files and generates reports"
   - ❌ Avoid: "I can help you process Excel files"
@@ -105,7 +109,8 @@ If user indicated supporting files are needed:
 
 ## Step 6: Present Implementation Plan
 
-Before creating or modifying, present a structured implementation plan:
+Before creating or modifying, present a structured implementation plan by using the auto plan mode, make sure the user is prompted to approve or keep planning:
+In other words, **USE THE PLAN TOOL** like the user is in plan mode (event if they are not).
 
 **Required plan format:**
 
@@ -141,8 +146,6 @@ After implementation:
 - Claude will have access to: [capabilities]
 - Location: [full path where files will be created]
 ```
-
-**After presenting the plan**, wait for user approval. If user requests changes, return to Step 3 for iteration.
 
 ## Step 7: Implementation
 
