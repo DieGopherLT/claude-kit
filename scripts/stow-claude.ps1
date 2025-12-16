@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+#Requires -Version 7.0
 
 <#
 .SYNOPSIS
@@ -8,13 +8,14 @@
     to the Windows Claude Code configuration directory (%APPDATA%\Claude)
 .NOTES
     Requires Administrator privileges to create symbolic links on Windows
+    Compatible with PowerShell 7.0+
 #>
 
 # Stop on any error
 $ErrorActionPreference = "Stop"
 
-# Get the directory where this script lives
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+# Get the directory where this script lives (PS7+ uses $PSScriptRoot)
+$ScriptDir = $PSScriptRoot
 $RepoRoot = Split-Path -Parent $ScriptDir
 $DotfilesDir = Join-Path $RepoRoot "dotfiles"
 $Module = "claude"
@@ -47,10 +48,92 @@ Write-Host "Source: $SourceDir"
 Write-Host "Target: $TargetBase"
 Write-Host ""
 
+# ============================================================
+# CRITICAL: Prevent tree folding disaster
+# ============================================================
+# If a target directory is a symlink to an entire directory instead of
+# individual files, ALL Claude Code runtime data would be written into the repo.
+#
+# Solution: Ensure target directories exist as real directories BEFORE creating symlinks.
+# ============================================================
+
+Write-Host "Preparing target directories (preventing tree folding)..." -ForegroundColor Cyan
+
+$ClaudeTarget = Join-Path $TargetBase "Claude"
+$CcStatusLineTarget = Join-Path $TargetBase "ccstatusline"
+
+# Check if Claude directory is a symlink to a directory (THE DISASTER SCENARIO)
+if ((Test-Path $ClaudeTarget) -and ((Get-Item $ClaudeTarget -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+    $LinkTarget = (Get-Item $ClaudeTarget -Force).Target
+    Write-Host ""
+    Write-Host "DANGER: $ClaudeTarget is a symlink to a directory!" -ForegroundColor Red
+    Write-Host "   This means ALL Claude Code data is being written to your repo." -ForegroundColor Red
+    Write-Host ""
+    Write-Host "   Current target: $LinkTarget" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "   To fix this:" -ForegroundColor Yellow
+    Write-Host "   1. Remove-Item '$ClaudeTarget'" -ForegroundColor Yellow
+    Write-Host "   2. New-Item -ItemType Directory '$ClaudeTarget'" -ForegroundColor Yellow
+    Write-Host "   3. Move runtime files from the old location to $ClaudeTarget" -ForegroundColor Yellow
+    Write-Host "   4. Run this script again" -ForegroundColor Yellow
+    Write-Host ""
+    exit 1
+}
+
+# Check if ccstatusline directory is a symlink to a directory
+if ((Test-Path $CcStatusLineTarget) -and ((Get-Item $CcStatusLineTarget -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+    $LinkTarget = (Get-Item $CcStatusLineTarget -Force).Target
+    Write-Host ""
+    Write-Host "DANGER: $CcStatusLineTarget is a symlink to a directory!" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "   Current target: $LinkTarget" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "   To fix this:" -ForegroundColor Yellow
+    Write-Host "   1. Remove-Item '$CcStatusLineTarget'" -ForegroundColor Yellow
+    Write-Host "   2. New-Item -ItemType Directory '$CcStatusLineTarget'" -ForegroundColor Yellow
+    Write-Host "   3. Run this script again" -ForegroundColor Yellow
+    Write-Host ""
+    exit 1
+}
+
+# Ensure Claude directory exists (real directory, not symlink)
+if (-not (Test-Path $ClaudeTarget)) {
+    Write-Host "Creating $ClaudeTarget directory..."
+    $null = New-Item -ItemType Directory -Path $ClaudeTarget -Force
+}
+
+# Handle rules/ directory symlink (this one SHOULD be a directory symlink)
+# Unlike the Claude directory itself, rules/ contains only repo-managed content
+$RulesSource = Join-Path $SourceDir ".claude\rules"
+$RulesTarget = Join-Path $ClaudeTarget "rules"
+
+if (Test-Path $RulesSource) {
+    if ((Test-Path $RulesTarget) -and ((Get-Item $RulesTarget -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+        Write-Host "rules/ symlink already exists" -ForegroundColor Green
+    } elseif (Test-Path $RulesTarget) {
+        Write-Host "rules/ exists as real directory, backing up..." -ForegroundColor Yellow
+        $BackupPath = "$RulesTarget.backup.$BackupTimestamp"
+        Move-Item -Path $RulesTarget -Destination $BackupPath -Force
+        $null = New-Item -ItemType SymbolicLink -Path $RulesTarget -Target $RulesSource -Force
+        Write-Host "rules/ symlink created" -ForegroundColor Green
+    } else {
+        $null = New-Item -ItemType SymbolicLink -Path $RulesTarget -Target $RulesSource -Force
+        Write-Host "rules/ symlink created" -ForegroundColor Green
+    }
+}
+
+# Ensure ccstatusline directory exists
+if (-not (Test-Path $CcStatusLineTarget)) {
+    Write-Host "Creating $CcStatusLineTarget directory..."
+    $null = New-Item -ItemType Directory -Path $CcStatusLineTarget -Force
+}
+
+Write-Host ""
+
 # Track backups
 $BackedUp = 0
 
-# Define files to symlink with their paths relative to target base
+# Define files to symlink with their paths relative to source/target
 $FilesToLink = @(
     @{
         Source = ".claude\CLAUDE.md"
@@ -68,14 +151,14 @@ $FilesToLink = @(
 foreach ($File in $FilesToLink) {
     $TargetPath = Join-Path $TargetBase $File.Target
 
-    if ((Test-Path $TargetPath) -and -not ((Get-Item $TargetPath).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+    if ((Test-Path $TargetPath) -and -not ((Get-Item $TargetPath -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
         $BackupFile = "$TargetPath.backup.$BackupTimestamp"
-        Write-Host "📦 Backing up existing $($File.Description)..." -ForegroundColor Yellow
+        Write-Host "Backing up existing $($File.Description)..." -ForegroundColor Yellow
 
         # Ensure parent directory exists for backup
         $BackupParent = Split-Path -Parent $BackupFile
         if (-not (Test-Path $BackupParent)) {
-            New-Item -ItemType Directory -Path $BackupParent -Force | Out-Null
+            $null = New-Item -ItemType Directory -Path $BackupParent -Force
         }
 
         Move-Item -Path $TargetPath -Destination $BackupFile -Force
@@ -86,7 +169,7 @@ foreach ($File in $FilesToLink) {
 
 if ($BackedUp -gt 0) {
     Write-Host ""
-    Write-Host "ℹ️  $BackedUp file(s) backed up. The module version will be used (module is source of truth)." -ForegroundColor Cyan
+    Write-Host "$BackedUp file(s) backed up. The module version will be used (module is source of truth)." -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -101,7 +184,7 @@ foreach ($File in $FilesToLink) {
 
     # Ensure source file exists
     if (-not (Test-Path $SourcePath)) {
-        Write-Host "✗ Error: Source file not found: $SourcePath" -ForegroundColor Red
+        Write-Host "Error: Source file not found: $SourcePath" -ForegroundColor Red
         $Errors++
         continue
     }
@@ -109,7 +192,7 @@ foreach ($File in $FilesToLink) {
     # Ensure target parent directory exists
     if (-not (Test-Path $TargetParent)) {
         Write-Host "  Creating directory: $TargetParent" -ForegroundColor Gray
-        New-Item -ItemType Directory -Path $TargetParent -Force | Out-Null
+        $null = New-Item -ItemType Directory -Path $TargetParent -Force
     }
 
     # Remove existing symlink if it exists
@@ -122,10 +205,10 @@ foreach ($File in $FilesToLink) {
 
     # Create symbolic link
     try {
-        New-Item -ItemType SymbolicLink -Path $TargetPath -Target $SourcePath -Force | Out-Null
-        Write-Host "✓ Created symlink for $($File.Description)" -ForegroundColor Green
+        $null = New-Item -ItemType SymbolicLink -Path $TargetPath -Target $SourcePath -Force
+        Write-Host "Created symlink for $($File.Description)" -ForegroundColor Green
     } catch {
-        Write-Host "✗ Error creating symlink for $($File.Description): $_" -ForegroundColor Red
+        Write-Host "Error creating symlink for $($File.Description): $_" -ForegroundColor Red
         $Errors++
     }
 }
@@ -141,28 +224,42 @@ foreach ($File in $FilesToLink) {
         $Item = Get-Item $TargetPath -Force
         if ($Item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
             $LinkTarget = $Item.Target
-            Write-Host "✓ $($File.Description) symlink verified" -ForegroundColor Green
+            Write-Host "$($File.Description) symlink created" -ForegroundColor Green
             Write-Host "  $TargetPath -> $LinkTarget" -ForegroundColor Gray
         } else {
-            Write-Host "✗ Error: $($File.Description) exists but is not a symlink" -ForegroundColor Red
+            Write-Host "Error: $($File.Description) exists but is not a symlink" -ForegroundColor Red
             $Errors++
         }
     } else {
-        Write-Host "✗ Error: $($File.Description) symlink not created" -ForegroundColor Red
+        Write-Host "Error: $($File.Description) symlink not created" -ForegroundColor Red
         $Errors++
     }
 }
 
+# Verify rules symlink if source exists
+if (Test-Path $RulesSource) {
+    if ((Test-Path $RulesTarget) -and ((Get-Item $RulesTarget -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
+        $LinkTarget = (Get-Item $RulesTarget -Force).Target
+        Write-Host "rules/ symlink created" -ForegroundColor Green
+        Write-Host "  $RulesTarget -> $LinkTarget" -ForegroundColor Gray
+    } else {
+        Write-Host "Error: rules/ symlink not created" -ForegroundColor Red
+        $Errors++
+    }
+} else {
+    Write-Host "rules/ skipped (no rules in module)" -ForegroundColor DarkGray
+}
+
 Write-Host ""
 if ($Errors -eq 0) {
-    Write-Host "✅ All symlinks created successfully!" -ForegroundColor Green
+    Write-Host "All symlinks created successfully!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Your configuration is now managed via symbolic links." -ForegroundColor Cyan
     Write-Host "Edit files in: $SourceDir" -ForegroundColor Cyan
     Write-Host "Changes will be reflected immediately in $TargetBase" -ForegroundColor Cyan
     exit 0
 } else {
-    Write-Host "❌ Failed to create $Errors symlink(s)" -ForegroundColor Red
+    Write-Host "Failed to create $Errors symlink(s)" -ForegroundColor Red
     Write-Host ""
     Write-Host "Troubleshooting tips:" -ForegroundColor Yellow
     Write-Host "1. Make sure you're running PowerShell as Administrator" -ForegroundColor Yellow

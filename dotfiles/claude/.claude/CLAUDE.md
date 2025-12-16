@@ -16,7 +16,7 @@
 
 - When asking questions, use proactively `AskUserQuestion` tool.
   - Specially when you have suggestions or questions are closed.
-- If not in plan mode and user mentions a plan, **use the plan tool**.
+- If not in plan mode and user suggests a plan or a request is is beyond a few edits, then **enter plan mode**.
 - On user prompt, **proactively verify** if an **agent**, **slash command** or **skill** can fulfill the request before addressing it yourself.
 
 ## Code Standards
@@ -41,35 +41,6 @@
 - Array operations: avoid forEach for transformations, use map/filter/reduce
 - Side effects: minimize and isolate, never hidden in transformation functions
 
-### Frontend Specifics
-
-**HTML:**
-
-- Semantic elements over generic divs (use main, section, article, header, nav, aside)
-- Avoid div soup - question each div's necessity
-
-**CSS:**
-
-- Mobile-first: base styles for mobile, media queries with min-width for larger screens
-- Layout: flexbox for single-axis distribution, grid for two-dimensional layouts
-- Position: avoid fixed/absolute except for overlays, modals, or truly static elements
-
-**React:**
-
-- useEffect: aggressively minimize dependencies, find alternative patterns before adding deps
-- Avoid: useCallback/useMemo unless proven performance issue
-- State: lift state only when necessary, prefer local state
-- className: use clsx or similar library over template strings
-- JSX conditionals: use && operator, handle all cases explicitly (no ternaries)
-
-**When proposing UI/UX changes:**
-
-- Read theme configuration first (tailwind.config.js, theme.ts, design tokens, explore for styles)
-- Detect existing color palette and spacing scale
-- Respect established patterns unless there's a strong reason to deviate
-- Ask before introducing new colors or breaking existing design system
-- Validate information hierarchy (primary user goal = visual dominance)
-
 ### Language
 
 - Code: English only
@@ -88,31 +59,7 @@ Evaluate if user requests has:
 - **Parallelizable work**: Can be done simultaneously without conflicts
 
 In general terms, try use them proactively to save context and improve efficiency.
-
-#### Code Exploration Strategy
-
-There is the option to use agent-Explore to analyze codebases, but there are some guidelines to consider between using it or doing it yourself:
-
-**Use manual search** when:
-
-- Needle-in-haystack query (e.g., "find function `authenticateUser`")
-- Looking for specific file/class/function by name
-- Query likely to succeed in 1-2 attempts
-
-**Use agent-Explore** when:
-
-- Understanding flows/architecture (e.g., "how does auth work?")
-- Broad exploratory questions (e.g., "where are errors handled?")
-- Query might need multiple search patterns/iterations
-- Need context, not just location
-
-**Pivot to agent-Explore if**:
-
-- After 2-3 manual search attempts without clear results.
-- Discovery reveals interconnected modules/flows needing broader context.
-- Initial query spawns multiple follow-up questions requiring deeper exploration.
-
-**For Opus models**: Prefer agent-Explore more aggressively to conserve context window. In plan mode replace agent-Explore with agent-Plan.
+Look first if there is an specialized agent that can help before using a generalist one.
 
 ### MCPs
 
