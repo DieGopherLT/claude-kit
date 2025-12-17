@@ -5,7 +5,7 @@
     Creates symbolic links for Claude Code configuration on Windows
 .DESCRIPTION
     This script creates symbolic links from the dotfiles/claude directory
-    to the Windows Claude Code configuration directory (%APPDATA%\Claude)
+    to the Windows Claude Code configuration directory (~/.claude)
 .NOTES
     Requires Administrator privileges to create symbolic links on Windows
     Compatible with PowerShell 7.0+
@@ -20,7 +20,7 @@ $RepoRoot = Split-Path -Parent $ScriptDir
 $DotfilesDir = Join-Path $RepoRoot "dotfiles"
 $Module = "claude"
 $SourceDir = Join-Path $DotfilesDir $Module
-$TargetBase = $env:APPDATA
+$TargetBase = $env:USERPROFILE
 $BackupTimestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 
 # Check if running as Administrator
@@ -59,8 +59,8 @@ Write-Host ""
 
 Write-Host "Preparing target directories (preventing tree folding)..." -ForegroundColor Cyan
 
-$ClaudeTarget = Join-Path $TargetBase "Claude"
-$CcStatusLineTarget = Join-Path $TargetBase "ccstatusline"
+$ClaudeTarget = Join-Path $TargetBase ".claude"
+$CcStatusLineTarget = Join-Path $TargetBase ".config\ccstatusline"
 
 # Check if Claude directory is a symlink to a directory (THE DISASTER SCENARIO)
 if ((Test-Path $ClaudeTarget) -and ((Get-Item $ClaudeTarget -Force).Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
@@ -137,12 +137,12 @@ $BackedUp = 0
 $FilesToLink = @(
     @{
         Source = ".claude\CLAUDE.md"
-        Target = "Claude\CLAUDE.md"
+        Target = ".claude\CLAUDE.md"
         Description = "CLAUDE.md"
     },
     @{
         Source = ".config\ccstatusline\settings.json"
-        Target = "ccstatusline\settings.json"
+        Target = ".config\ccstatusline\settings.json"
         Description = "ccstatusline settings.json"
     }
 )
