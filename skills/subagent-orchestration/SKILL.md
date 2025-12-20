@@ -1,6 +1,10 @@
 ---
-name: Orchestrating Subagents
-description: Orchestrate parallel or sequential subagent invocations for complex tasks. Use when delegating work to multiple agents, defining task boundaries, or managing independent parallel workstreams.
+name: subagent-orchestration
+description: |
+  This skill should be used when coordinating multiple subagents, implementing orchestrator
+  patterns, or managing parallel agent workflows.
+  Trigger phrases: "orchestrate agents", "coordinate subagents", "parallel agents",
+  "multi-agent workflow", "delegate to agents", "run agents in parallel", "launch multiple agents".
 ---
 
 # Orchestrating Subagents

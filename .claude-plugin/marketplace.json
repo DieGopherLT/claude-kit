@@ -6,11 +6,11 @@
   },
   "plugins": [
     {
-      "name": "claude-kit",
+      "name": "claudefiles",
       "description": "My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.",
       "source": {
         "source": "github",
-        "repo": "DieGopherLT/claude-kit"
+        "repo": "DieGopherLT/claudefiles"
       }
     }
   ]

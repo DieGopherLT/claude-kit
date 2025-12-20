@@ -1,6 +1,7 @@
 ---
 description: Sequential thinking for complex problem-solving with hypothesis generation. Triggers: deep analysis, step by step, algorithm design, trade-offs, architectural decision, ultrathink
 argument-hint: <problem>
+model: opus
 ---
 
 # Deep Reasoning Analysis

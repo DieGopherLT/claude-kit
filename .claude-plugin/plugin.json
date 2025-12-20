@@ -1,12 +1,12 @@
 {
-  "name": "claude-kit",
+  "name": "claudefiles",
   "version": "1.3.0",
-  "description": "Diego's curated Claude Code commands, agents, skills, and MCP servers. Includes custom slash commands for code review, testing, scaffolding, security scanning, specialized agents for quality auditing and UI implementation, plus sequential-thinking and context7 MCP servers.",
+  "description": "Diego's curated Claude Code commands, agents, skills, and MCP servers. Includes custom slash commands for code review, testing, scaffolding, security scanning, specialized agents for quality auditing and UI implementation, plus sequential-thinking MCP server.",
   "author": {
     "name": "Diego",
     "url": "https://github.com/DieGopherLT"
   },
-  "repository": "https://github.com/DieGopherLT/claude-kit",
+  "repository": "https://github.com/DieGopherLT/claudefiles",
   "license": "MIT",
   "keywords": [
     "commands",

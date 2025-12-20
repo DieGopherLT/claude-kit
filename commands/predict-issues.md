@@ -1,5 +1,6 @@
 ---
 description: Predict potential code problems before production impact. Triggers: predict, risk analysis, code smell, technical debt, scalability issues
+model: opus
 ---
 
 # Predictive Code Analysis

@@ -1,5 +1,6 @@
 ---
 description: Remove redundant comments, preserve valuable documentation. Triggers: clean comments, comment cleanup, code hygiene, remove obvious comments
+model: haiku
 ---
 
 # Remove Obvious Comments

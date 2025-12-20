@@ -1,5 +1,6 @@
 ---
 description: Create structured development memory entry based on recent development work. Triggers: journal, save memory, document work session, save progress
+model: sonnet
 ---
 
 # Journal Command for Claude Code

@@ -1,6 +1,7 @@
 ---
 description: Generate/update token-efficient CLAUDE.md for module documentation. Triggers: document module, onboarding, understand business logic, claudify, module docs
 argument-hint: <module-path>
+model: sonnet
 ---
 
 You are tasked with generating comprehensive yet token-efficient documentation for the module: **$1**
