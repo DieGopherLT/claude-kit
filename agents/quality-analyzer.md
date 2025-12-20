@@ -1,6 +1,6 @@
 ---
 name: quality-analyzer
-description: Use this agent when Diego requests code quality analysis, audits, or clean code evaluation. Triggers include: "analyze quality", "audit code", "check clean code", "detect code smells", "evaluate code integrity", "review code quality". This agent detects specific code-level issues and generates detailed, actionable refactoring reports. Examples:\n\n<example>\nContext: Diego wants to evaluate code quality in authentication module.\nuser: "Analyze the quality of src/modules/auth/"\nassistant: "I'll use the quality-analyzer agent to audit the code quality in src/modules/auth/ and generate a detailed report."\n<Task tool invocation to quality-analyzer agent>\n</example>\n\n<example>\nContext: Diego suspects code smells in a specific directory.\nuser: "Check for code smells in src/services/payment/"\nassistant: "I'll invoke the quality-analyzer agent to detect code smells in the payment services directory."\n<Task tool invocation to quality-analyzer agent>\n</example>\n\n<example>\nContext: Diego wants a clean code audit before a major release.\nuser: "Audit the code integrity in src/api/ before we ship"\nassistant: "I'll use the quality-analyzer agent to perform a comprehensive clean code audit on src/api/."\n<Task tool invocation to quality-analyzer agent>\n</example>\n\n<example>\nContext: Diego is reviewing legacy code and wants to identify refactoring opportunities.\nuser: "Evaluate code quality in the old utils folder"\nassistant: "I'll invoke the quality-analyzer agent to identify refactoring opportunities in the utils directory."\n<Task tool invocation to quality-analyzer agent>\n</example>
+description: Use this agent when Diego requests code quality analysis, audits, or clean code evaluation. Triggers include: "analyze quality", "audit code", "check clean code", "detect code smells", "evaluate code integrity", "review code quality". This agent detects specific code-level issues and generates detailed, actionable refactoring reports. Examples:\n\n<example>\nContext: Diego wants to evaluate code quality in authentication module.\nuser: "Analyze the quality of src/modules/auth/"\nassistant: "I'll use the quality-analyzer agent to audit the code quality in src/modules/auth/ and generate a detailed report."\n</example>\n\n<example>\nContext: Diego suspects code smells in a specific directory.\nuser: "Check for code smells in src/services/payment/"\nassistant: "I'll invoke the quality-analyzer agent to detect code smells in the payment services directory."\n</example>\n\n<example>\nContext: Diego wants a clean code audit before a major release.\nuser: "Audit the code integrity in src/api/ before we ship"\nassistant: "I'll use the quality-analyzer agent to perform a comprehensive clean code audit on src/api/."\n</example>\n\n<example>\nContext: Diego is reviewing legacy code and wants to identify refactoring opportunities.\nuser: "Evaluate code quality in the old utils folder"\nassistant: "I'll invoke the quality-analyzer agent to identify refactoring opportunities in the utils directory."\n</example>
 tools: Read, Grep, Glob, Bash, Write, TodoWrite, mcp__sequential-thinking__sequentialthinking
 model: sonnet
 color: blue
@@ -79,7 +79,10 @@ Functions/methods with too many responsibilities or excessive length.
 
 **Detection criteria:**
 
-- LOC > 150 (adjust based on language/context)
+- LOC thresholds by language:
+  - TypeScript/JavaScript: LOC > 100 (higher complexity tolerance)
+  - Go: LOC > 150 (often more verbose due to error handling)
+  - C#: LOC > 120
 - Multiple distinct responsibilities (fetching + rendering + analytics + error handling)
 - High cyclomatic complexity
 
