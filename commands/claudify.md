@@ -107,21 +107,31 @@ Based on the exploration results, create or update the CLAUDE.md file in the $1 
 ```[language]
 // [brief practical example]
 ```
-```
 
-**Token Efficiency Rules:**
+```markdown
+
+### Token Efficiency Rules
 - Bullet points over paragraphs
-- File references: `file:line` format
+- File references: `relative-path` format
 - Descriptions <20 words
 - Focus on "why" over "what"
-- Omit obvious details
+- Omit obvious details, focus on business logic
 - Use clear abbreviations
 
 ## Step 3: Confirm
 
 After creating or updating the CLAUDE.md file, report:
+
 - Action taken: [created new | updated existing] CLAUDE.md
 - Location of file
 - Token count estimate (if new) or change summary (if updated)
 - Key insights discovered
 - Notable improvements made (if updating)
+
+## Final Check
+
+And more importantly, answer the this question:
+
+> "Is this documentation up to date & telling the absolute truth in the current state of the module?"
+
+If the answer is NO, then keep iterating until you can answer YES with confidence.

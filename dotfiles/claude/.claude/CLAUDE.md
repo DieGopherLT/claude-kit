@@ -17,7 +17,7 @@
 - When asking questions, use proactively `AskUserQuestion` tool.
   - Specially when you have suggestions or questions are closed.
 - If not in plan mode and user suggests a plan or a request is is beyond a few edits, then **enter plan mode**.
-- On user prompt, **proactively verify** if an **agent**, **slash command** or **skill** can fulfill the request before addressing it yourself.
+- On user prompt, **proactively verify** if an **agent** or **skill** can fulfill the request before addressing it yourself.
 
 ## Code Standards
 
@@ -29,17 +29,11 @@
 
 ### Structure
 
+- Immutability: create new objects/arrays instead of mutating existing ones
 - Control flow: guard clauses at function start, return early to avoid nesting
 - Function parameters: use config object when 3+ parameters
 - Organization: group related code with blank lines between distinct concepts
 - Comments: only for non-obvious technical decisions, never for self-explanatory code or redundant information
-
-### Functional Programming
-
-- Immutability: create new objects/arrays instead of mutating existing ones
-- Data transformation: prefer map/filter/reduce chains over imperative loops
-- Array operations: avoid forEach for transformations, use map/filter/reduce
-- Side effects: minimize and isolate, never hidden in transformation functions
 
 ### Language
 
@@ -47,19 +41,6 @@
 - Responses: match user's language
 
 ## Tools & Workflows
-
-### Agents
-
-#### When to consider specialized agents
-
-Evaluate if user requests has:
-
-- **2 or more independent components/areas/plans** that don't depend on each other's results
-- **Domain expertise needed**: UI/UX design, architecture, refactoring, code review.
-- **Parallelizable work**: Can be done simultaneously without conflicts
-
-In general terms, try use them proactively to save context and improve efficiency.
-Look first if there is an specialized agent that can help before using a generalist one.
 
 ### MCPs
 
@@ -104,13 +85,3 @@ Look first if there is an specialized agent that can help before using a general
 
 - File moves: use `git mv` instead of rewriting
 - When commiting code, do not include any co-authorying information.
-
-#### Model specific bad habits to avoid
-
-From my perspective there are some bad habits that you should avoid depending on the model you are:
-
-- **Haiku 4.5**:
-  - Do not attempt to commit immediately after generating code.
-
-- **Opus**:
-  - Rely more on agents to save context, save yourself for the heavy analysis.
