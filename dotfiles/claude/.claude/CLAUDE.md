@@ -56,31 +56,6 @@
   - **After 2-3 failed attempts** (STOP and reassess strategy before trying more)
   - Debugging requires tracing through multiple layers/modules
 
-#### Context7
-
-- **Purpose**: up-to-date third-party package documentation for quick reference
-- Do not sleep on `agent-dependency-docs-collector` existence, especially when integrating new packages or troubleshooting.
-
-- **Use Context7 directly when**:
-  - Quick API reference (e.g., "how to use `useQuery` hook?")
-  - Syntax verification during active coding
-  - Single method/function lookup
-  - User asks specific "how to..." questions about known packages (e.g. express, lodash)
-
-- **Use agent-dependency-docs-collector when**:
-  - Integrating new package from scratch
-  - Troubleshooting errors with third-party deps
-  - Version migrations/upgrades
-  - Need installation + configuration plan
-  - Multiple dependencies setup
-
-- When user mentions a third-party package, analyze intent:
-  - Quick question → Context7 direct
-  - Setup/integration → agent-dependency-docs-collector
-  - If unsure, ask the user
-
-**NEVER use context7 for language standard library documentation.**
-
 ### General Operations
 
 - File moves: use `git mv` instead of rewriting
