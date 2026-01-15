@@ -1,12 +1,12 @@
-# Claude Kit
+# claudefiles
 
 My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.
 
 ## Install
 
 ```bash
-/plugin marketplace add https://github.com/DieGopherLT/claude-kit diegopher
-/plugin install claude-kit@diegopher
+/plugin marketplace add https://github.com/DieGopherLT/claudefiles diegopher
+/plugin install claudefiles@diegopher
 ```
 
 ## Setup Dotfiles (Optional)
@@ -38,14 +38,13 @@ They both look almost identical, Go version made by me includes a visual context
 ## Update
 
 ```bash
-/plugin marketplace update diegopher
-/plugin install claude-kit@diegopher
+/plugin update claudefiles@diegopher
 ```
 
 ## Uninstall
 
 ```bash
-/plugin uninstall claude-kit@diegopher
+/plugin uninstall claudefiles@diegopher
 ```
 
 ---
