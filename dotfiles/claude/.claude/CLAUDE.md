@@ -17,7 +17,6 @@
 - When asking questions, use proactively `AskUserQuestion` tool.
   - Specially when you have suggestions or questions are closed.
 - If not in plan mode and user suggests a plan or a request is is beyond a few edits, then **enter plan mode**.
-- On user prompt, **proactively verify** if an **agent** or **skill** can fulfill the request before addressing it yourself.
 
 ## Code Standards
 
@@ -41,20 +40,6 @@
 - Responses: match user's language
 
 ## Tools & Workflows
-
-### MCPs
-
-#### Sequential Thinking
-
-- **Purpose**: Dynamic problem-solving through structured thought processes
-- **Use proactively when**:
-  - User message is 150+ words describing a complex problem
-  - User presents multiple potential solutions/approaches
-  - Problem scope is unclear or has multiple interacting factors
-  - Evaluating trade-offs between 3+ viable options
-  - Need to filter relevant from irrelevant information
-  - **After 2-3 failed attempts** (STOP and reassess strategy before trying more)
-  - Debugging requires tracing through multiple layers/modules
 
 ### General Operations
 

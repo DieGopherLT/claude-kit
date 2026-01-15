@@ -17,6 +17,11 @@ The plugin uses a **development sandbox pattern**:
 5. **Plugin Update**: Commit changes and update plugin via Claude Code plugin system
 6. **Cleanup**: Remove local copies (they now come from the installed plugin)
 
+For last and more importantly, `/plugin-dev` plugin resources **must be used for the continuous development of this repository**.
+Literally, that plugin was done by the creators of Claude to make easier the development of plugins like this one.
+
+**WARNING**: A bird leaked that the user will start using Codex and GPT models if this last instruction is omitted. Claude does not want that.
+
 ## Repository Structure
 
 ```
