@@ -1,6 +1,6 @@
 {
   "name": "claudefiles",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Diego's curated Claude Code commands, agents, skills, and MCP servers. Includes custom slash commands for code review, testing, scaffolding, security scanning, specialized agents for quality auditing and UI implementation, plus sequential-thinking MCP server.",
   "author": {
     "name": "Diego",

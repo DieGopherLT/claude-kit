@@ -1,71 +1,134 @@
 ---
-description: Create structured development memory entry based on recent development work. Triggers: journal, save memory, document work session, save progress
+description: Create session journal entry capturing knowledge and progress
 model: sonnet
+allowed-tools: Read, Bash(git:*)
 ---
 
-# Journal Command for Claude Code
+Create a session journal entry documenting the valuable knowledge generated during this conversation.
 
-## Command Definition
+## Context Gathering
 
-**Purpose**: Create a structured memory entry based on recent development work for documentation and future reference.
+Auto-detect project information:
 
-## Behavior
+- Project name: !`basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)`
+- Current branch: !`git branch --show-current 2>/dev/null || echo "n/a"`
+- Latest commit: !`git log -1 --oneline 2>/dev/null || echo "n/a"`
 
-1. **Auto-detect Context**: Extract project name from current directory/git repository
-2. **Gather Recent Changes**: Analyze recent commits and modified files and knowledge generated during the session
-   1. If no git changes done recently, then work with the knowledge available in the session
-3. **Generate Memory**: Create formatted memory entry using available context
+## Content Generation
 
-## Memory title
+Analyze the conversation to extract:
 
-<conversation_name>-<timestamp>.md
+1. **Main Accomplishments**: What was achieved during this session
+2. **Key Knowledge**: Important discoveries, patterns, or insights
+3. **Technical Details**: Solutions implemented, approaches taken
+4. **Decisions Made**: Important choices and their rationale
+5. **Next Steps**: Natural continuation points or pending items
 
-Save on root directory unless user specifies otherwise.
+## Journal Structure
 
-## Template Structure
+Create a journal entry with this structure:
 
 ```markdown
-# {title}
+# {concise_session_summary}
 
-## Context
+## Session Info
 
-- **Timestamp**: {current_timestamp}
-- **Project**: {auto_detected_project_name}
-- **Task Type**: {task_type}
-- **Duration**: {duration}
+- **Date**: {YYYY-MM-DD HH:MM:SS}
+- **Project**: {project_name}
+- **Branch**: {git_branch if available}
+- **Commit**: {latest_commit_hash if available}
 
-## Problem Statement
+## What We Accomplished
 
-- {problem_description}
+{bullet_list_of_main_achievements}
 
-## Solution Summary
+## Key Knowledge
 
-- {overview_of_solution_agreed_by_user}
+{important_insights_patterns_or_discoveries}
 
-## Technical Implementation
+## Technical Details
 
-### Files Modified
+{implementation_details_code_changes_approaches_used}
 
-- {analyze_recent_git_changes_or_prompt}
-- Omit if no files were changed
+## Decisions
 
-### Key Decisions
+{important_decisions_made_with_brief_rationale}
 
-- {key_decisions_made_by_user_or_agent}
+## Next Steps
 
-## Testing/Verification
+{natural_continuation_points_or_todos}
 
-- {prompt_user_for_testing_approach}
-- Omit if no testing was done
+## References
 
-## Technical Debt
-
-- {prompt*user_for_debt_or_default_to*"nada"}
-- Omit if no technical debt was identified
-
-## Related
-
-- **Commits**: {get_recent_commit_hashes} (skip if none)
-- **Dependencies**: {prompt_user_for_related_work} (skip if none)
-- **References**: {prompt_user_for_references}
+{relevant_files_commits_or_resources}
 ```
+
+## File Naming and Storage
+
+**Filename format**: `YYYYMMDD-HHMMSS-{topic-slug}.md`
+
+Example: `20260115-143022-retry-pattern-implementation.md`
+
+**Default location**: Project root directory
+
+**Topic slug**: Create from main session topic (lowercase, hyphens, 2-4 words)
+
+## Content Guidelines
+
+- Focus on knowledge and insights, not just changes
+- Be concise but informative (aim for 200-400 words)
+- Include specific technical details when relevant
+- Omit empty sections
+- Link to files using relative paths when referencing code
+
+## Example Output
+
+```markdown
+# Implemented Exponential Backoff Retry Pattern
+
+## Session Info
+
+- **Date**: 2026-01-15 14:30:22
+- **Project**: payment-service
+- **Branch**: feature/retry-pattern
+- **Commit**: a3f7d92
+
+## What We Accomplished
+
+- Implemented exponential backoff retry pattern for HTTP client
+- Added configurable retry parameters (max attempts, delays, multiplier)
+- Created comprehensive tests for retry logic
+- Documented pattern usage in team wiki
+
+## Key Knowledge
+
+The exponential backoff pattern significantly improves resilience against transient failures. Key insight: using a multiplier of 2.0 with max delay cap prevents indefinite waiting while still giving services time to recover.
+
+## Technical Details
+
+Implementation in `internal/http/client.go`:
+- `RetryConfig` struct for configuration
+- `doWithRetry()` method with exponential delay calculation
+- Distinguishes retryable (5xx) from non-retryable errors
+- Respects max delay cap to prevent excessively long waits
+
+## Decisions
+
+- Chose 3 max attempts as default (balances reliability vs latency)
+- Set max delay to 30 seconds (prevents unbounded waiting)
+- Made retry behavior configurable per endpoint (flexibility for different SLAs)
+
+## Next Steps
+
+- Monitor retry metrics in production
+- Consider adding jitter to prevent thundering herd
+- Document pattern for other services to adopt
+
+## References
+
+- `internal/http/client.go` - Core implementation
+- `internal/http/client_test.go` - Test coverage
+- Commit a3f7d92 - Initial implementation
+```
+
+Write the journal entry to the project root with the formatted filename.

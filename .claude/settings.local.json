@@ -1,8 +1,8 @@
 {
-  "enabledMcpjsonServers": [
-    "sequential-thinking",
-    "context7",
-    "chrome-devtools"
-  ],
-  "enableAllProjectMcpServers": false
+  "permissions": {
+    "allow": [
+      "Skill(plugin-dev:skill-development)",
+      "Skill(plugin-dev:command-development)"
+    ]
+  }
 }
