@@ -1,6 +1,6 @@
 ---
 name: dropletify
-description: Una serie de pasos para preparar un proyecto para ser desplegado dentro de un droplet de DigitalOcean mediante GitHub Actions; usarse cuando el usuario quiera desplegar un proyecto en un droplet de DigitalOcean.
+description: Esta skill debe usarse cuando el usuario pide "desplegar en DigitalOcean", "configurar droplet", "deploy a droplet", "CI/CD para DigitalOcean", "GitHub Actions para droplet", o quiere preparar un proyecto para despliegue con Docker en DigitalOcean.
 user-invocable: true
 ---
 
@@ -23,35 +23,26 @@ Corroborar que existan los siguientes archivos:
 - `Dockerfile` en la raíz del proyecto
 - `docker-compose.yml` en la raíz del proyecto
 
-Corroborar que los archivos estén actualizados y alineados con las necesidades del proyecto.
-Hazlo mediante la invocación de agentes de exploración.
+Evaluar si están actualizados y alineados con las necesidades del proyecto mediante agentes de exploración.
 
 Con base en eso, evaluar: ¿Se puede reusar el Dockerfile y docker-compose.yml existentes para el despliegue en DigitalOcean?
 
-- Si, usa esos mismos.
-- No, crea versiones `Dockerfile.prod` y `docker-compose.prod.yml` adaptadas para producción.
+- **Sí**: Usar esos mismos archivos.
+- **No**: Invocar el agente `dockerify` para crear versiones optimizadas para producción.
 
 ### Archivos de Docker inexistentes
 
-Lanza agentes de exploración para determinar las necesidades del proyecto y crear los archivos necesarios.
+**Invocar el agente `dockerify`** para analizar el proyecto y generar los archivos Docker necesarios.
 
-Presta especialmente atención a:
+El agente `dockerify` se encarga de:
 
-- Lenguaje de programación y framework
-- Dependencias que necesiten dependencias de sistema para funcionar.
-- Posibles diferencias de funcionamiento entre una distro Linux basada en Debian y Alpine.
+- Detectar runtime, framework y dependencias del proyecto
+- Crear `Dockerfile` optimizado con multi-stage builds y mejores prácticas
+- Generar `.dockerignore` apropiado
+- Usar imágenes Alpine por defecto (con fallback a Debian si hay incompatibilidades)
+- Aplicar hardening de seguridad (usuario non-root, permisos correctos)
 
-Después de realizar la exploración, crea archivos `Dockerfile` y `docker-compose.yml` adaptados para desarrollo.
-
-Hay determinadas pautas a seguir para crear el archivo `Dockerfile`:
-
-- Usa imágenes basadas en Alpine para reducir el tamaño.
-  - Haz fallback a Debian si hay incompatibilidades binarias sin alternativas para Alpine.
-- Haz uso de multi-stage builds para separar la etapa de construcción de la etapa de producción.
-  - En la etapa de construcción, instala todas las dependencias necesarias y compila/empaqueta el proyecto.
-  - En la etapa de producción, copia solo los artefactos necesarios desde la etapa de construcción e instala dependencias que necesite la imagen final.
-- De haber variables de entorno necesarias en la imagen Dockerfile, configúralas con fallbacks seguros.
-- Expón los puertos necesarios.
+Después de que `dockerify` complete su trabajo, crear manualmente el `docker-compose.yml` si el proyecto lo requiere para orquestación local.
 
 ## Archivo de workflow para GitHub Actions
 

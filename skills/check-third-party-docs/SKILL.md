@@ -1,6 +1,6 @@
 ---
 name: check-third-party-docs
-description: Consulta documentación de paquetes de terceros especializados (zod, bull, sharp, ioredis, react-hook-form, etc.). Usar cuando el usuario mencione "agregar librería X para Y", "migrar de A a B", "alternativa a librería C", errores de paquetes, o documentación de plugins/extensiones. NO para librerías comunes (express, react, lodash, axios).
+description: Esta skill debe usarse cuando el usuario pide "agregar librería X", "migrar de A a B", "alternativa a librería", "documentación de [paquete]", menciona errores de paquetes especializados, o necesita consultar documentación antes de implementar librerías de terceros por primera vez. También aplicable en modo plan cuando se requiera investigar paquetes especializados (zod, bull, sharp, ioredis, react-hook-form, etc.). NO para librerías comunes (express, react, lodash, axios).
 version: 0.1.0
 ---
 

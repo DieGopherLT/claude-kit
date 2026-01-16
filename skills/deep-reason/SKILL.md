@@ -1,6 +1,7 @@
 ---
 name: deep-reason
-description: Razonamiento profundo para problemas complejos. Usar cuando el usuario pide "pensar esto a fondo", "analizar paso a paso", "evaluar opciones", "razonar sobre esto", o ante problemas con descripciones extensas, múltiples soluciones posibles, alcance difuso, 3+ opciones a evaluar, o tras 2-3 intentos fallidos que requieren replantear estrategia.
+description: Esta skill debe usarse cuando el usuario pide "pensar esto a fondo", "analizar paso a paso", "evaluar opciones", "razonar sobre esto", "pensar detenidamente", "meditar", o ante problemas con descripciones extensas, múltiples soluciones posibles, alcance difuso, 3+ opciones a evaluar, o tras 2-3 intentos fallidos que requieren replantear estrategia.
+model: claude-opus-4-5-20251101
 version: 0.1.0
 ---
 
@@ -27,7 +28,7 @@ During the sequential thinking process:
 ### 3. Information Gathering
 
 - **Gather information** as needed throughout the thought process
-- Use tools (Read, Grep, Glob, WebFetch, etc.) to understand:
+- Use tools (Read, Grep, Glob, WebFetch, MCPs, specialized agents, etc.) to understand:
   - The problem better
   - Existing code/patterns
   - Any proposed solutions

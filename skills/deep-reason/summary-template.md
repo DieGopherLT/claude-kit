@@ -5,7 +5,7 @@
 - **Project**: [Project name]
 - **Date**: [YYYY-MM-DD]
 - **Author**: Diego (@DieGopherLT)
-- **Model**: [Claude model ID, e.g., claude-sonnet-4-5-20250929]
+- **Model**: [Claude model name, e.g., 'Claude Opus', 'Claude Sonnet']
 - **Session**: [Brief session context description]
 
 ---

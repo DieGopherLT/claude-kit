@@ -1,6 +1,6 @@
 ---
 name: document
-description: Genera documentación estructurada cuando el usuario pide "documentar un patrón", "documentar un problema", "documentar una decisión", "documentar guías", "crear documentación de", o quiere capturar conocimiento técnico de la sesión. Usa plantillas para patrones, problemas, decisiones, guías o contenido libre.
+description: Esta skill debe usarse cuando el usuario pide "documentar un patrón", "documentar un problema", "documentar una decisión", "documentar guías", "documentar la sesión", "crear documentación de", o quiere capturar conocimiento técnico de la sesión usando plantillas estructuradas.
 version: 1.0.0
 ---
 
