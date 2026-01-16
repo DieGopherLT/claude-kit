@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Skill(plugin-dev:skill-development)",
-      "Skill(plugin-dev:command-development)"
+      "Skill(plugin-dev:command-development)",
+      "mcp__plugin_claudefiles_sequential-thinking__sequentialthinking"
     ]
   }
 }

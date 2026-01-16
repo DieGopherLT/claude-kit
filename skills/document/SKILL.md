@@ -1,6 +1,6 @@
 ---
 name: document
-description: This skill should be used when the user asks to "document a pattern", "document a problem", "document a decision", "document guidelines", "create documentation for", "save this knowledge", or wants to capture specific technical knowledge from the session. Generates structured documentation with appropriate templates for patterns, problems, decisions, guidelines, or free-form content.
+description: Genera documentación estructurada cuando el usuario pide "documentar un patrón", "documentar un problema", "documentar una decisión", "documentar guías", "crear documentación de", o quiere capturar conocimiento técnico de la sesión. Usa plantillas para patrones, problemas, decisiones, guías o contenido libre.
 version: 1.0.0
 ---
 

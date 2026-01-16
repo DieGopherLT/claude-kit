@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Create PRs for code changes based on user preferences. Invoke when users requests to create a pull request.
+description: Crea pull requests para cambios de código. Invocar cuando el usuario pida crear un PR.
 ---
 
 Create a pull request text on a file named `<current-branch>-PR.md` on English language

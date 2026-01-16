@@ -1,6 +1,6 @@
 ---
 name: deep-reason
-description: This skill should be used when the user asks to "think through this deeply", "analyze step by step", "evaluate multiple options", "help me reason about this", "walk me through the trade-offs", or when encountering complex problems with 150+ word descriptions, multiple potential solutions, unclear problem scope, 3+ options to evaluate, or after 2-3 failed attempts requiring strategy reassessment.
+description: Razonamiento profundo para problemas complejos. Usar cuando el usuario pide "pensar esto a fondo", "analizar paso a paso", "evaluar opciones", "razonar sobre esto", o ante problemas con descripciones extensas, múltiples soluciones posibles, alcance difuso, 3+ opciones a evaluar, o tras 2-3 intentos fallidos que requieren replantear estrategia.
 version: 0.1.0
 ---
 

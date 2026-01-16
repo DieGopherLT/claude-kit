@@ -8,11 +8,13 @@ Create a session journal entry documenting the valuable knowledge generated duri
 
 ## Context Gathering
 
-Auto-detect project information:
+Run these commands to detect project information:
 
-- Project name: !`basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)`
-- Current branch: !`git branch --show-current 2>/dev/null || echo "n/a"`
-- Latest commit: !`git log -1 --oneline 2>/dev/null || echo "n/a"`
+```bash
+basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)
+git branch --show-current 2>/dev/null || echo "n/a"
+git log -1 --oneline 2>/dev/null || echo "n/a"
+```
 
 ## Content Generation
 
