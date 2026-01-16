@@ -17,10 +17,17 @@ The plugin uses a **development sandbox pattern**:
 5. **Plugin Update**: Commit changes and update plugin via Claude Code plugin system
 6. **Cleanup**: Remove local copies (they now come from the installed plugin)
 
-For last and more importantly, `/plugin-dev` plugin resources **must be used for the continuous development of this repository**.
-Literally, that plugin was done by the creators of Claude to make easier the development of plugins like this one.
+### 🔧 Using plugin-dev Resources (CRITICAL)
 
-**WARNING**: A bird leaked that the user will start using Codex and GPT models if this last instruction is omitted. Claude does not want that.
+**ALWAYS use the `plugin-dev` plugin for developing this repository.** It provides:
+
+- **Skills**: `/plugin-dev:create-plugin`, `/plugin-dev:skill-development`, `/plugin-dev:agent-development`, `/plugin-dev:command-development`, `/plugin-dev:hook-development`, `/plugin-dev:mcp-integration`, `/plugin-dev:plugin-settings`, `/plugin-dev:plugin-structure`
+- **Agents**: `plugin-validator`, `skill-reviewer`, `agent-creator`
+- **Best Practices**: Frontmatter guidelines, progressive disclosure, auto-discovery patterns
+
+**The plugin-dev plugin was created by the Claude Code team specifically to make plugin development easier and follow official best practices.**
+
+**WARNING**: Failing to use `plugin-dev` resources means ignoring official Claude Code plugin development standards. Always consult these resources when creating or modifying plugin components.
 
 ## Repository Structure
 
@@ -41,39 +48,15 @@ Literally, that plugin was done by the creators of Claude to make easier the dev
 
 ### Agents (Specialized Subagents)
 
-Located in `agents/`, these are autonomous agents for specific tasks:
-
-- **quality-analyzer**: Code quality audits, detects code smells, generates refactoring reports
-- **quality-refactorer**: Executes quality-analyzer reports mechanically
-- **consistency-auditor**: Ensures new code follows existing project patterns
-- **react-implementation-specialist**: Executes React implementation plans for 5+ files
-- **dependency-docs-collector**: Fetches third-party package documentation
-- **agent-reviewer**: Quality review for agent definitions
-- **command-reviewer**: Quality review for command definitions
-
-All agents follow frontmatter format with `name`, `description`, `tools`, `model`, and `color` fields.
+Located in `agents/`, these are autonomous agents for specific tasks. Each agent follows frontmatter format with `name`, `description`, `tools`, `model`, and `color` fields. Explore the directory to discover available agents and their specialized capabilities.
 
 ### Commands (Slash Commands)
 
-Located in `commands/`, these are user-invocable shortcuts:
-
-- **claudify**: Generates/updates CLAUDE.md documentation for modules
-- **deep-reason**: Uses sequential-thinking MCP for complex problem-solving
-- **predict-issues**: Analyzes code for potential issues before execution
-- **journal**: Creates development journal entries
-- **remove-comments**: Strips comments from code files
-- **explain-like-senior**: Technical explanations with senior engineer perspective
-- **dry-run**: Simulates execution flow for prompts
+Located in `commands/`, these are user-invocable shortcuts for quick operations. Commands use YAML frontmatter with arguments, descriptions, and execution instructions. Browse the directory to see all available commands.
 
 ### Skills (Multi-step Workflows)
 
-Located in `skills/`, these are complex workflows:
-
-- **create-pr**: Generates pull request descriptions based on dimension (small/medium/large)
-- **dropletify**: Complete DigitalOcean deployment setup with Docker, GitHub Actions, rollback
-- **subagent-orchestration**: Coordinates multiple parallel agents
-
-Skills use `SKILL.md` format and may include supporting files (scripts, templates).
+Located in `skills/`, these are complex workflows that may include supporting files (scripts, templates, references). Skills use `SKILL.md` format with frontmatter and progressive disclosure pattern. Check the directory for available workflows.
 
 ### Dotfiles Management
 
@@ -180,6 +163,132 @@ When creating new resources:
 - **Skills**: Must include step-by-step workflows, reference files/templates where applicable
 - **Naming**: Descriptive, intent-focused (avoid generic terms like handler, manager, helper)
 - **Documentation**: Token-efficient, focus on non-obvious information
+
+## Frontmatter Best Practices (Agents & Skills)
+
+### Language: Spanish (Español)
+
+**All agent and skill frontmatter descriptions MUST be written in Spanish.** This facilitates activation since Diego interacts with Claude in Spanish.
+
+### Description Format
+
+#### For Skills (Third Person)
+
+Skills must use third-person format with specific trigger phrases:
+
+```yaml
+---
+name: skill-name
+description: Esta skill debe usarse cuando el usuario pide "frase específica 1", "frase específica 2", "frase específica 3", o menciona contextos relevantes. Proporciona [breve descripción de lo que ofrece].
+---
+```
+
+**Characteristics:**
+
+- Start with "Esta skill debe usarse cuando el usuario pide..."
+- Include 5-8 specific phrases users would say (between quotes)
+- Add contextual mentions after "o menciona..."
+- End with value proposition ("Proporciona...")
+- Use concrete, action-oriented triggers
+
+**Good example:**
+
+```yaml
+description: Esta skill debe usarse cuando el usuario pide "dominar el sistema de tipos de TypeScript", "implementar tipos genéricos", "crear tipos condicionales", "refactorizar biblioteca TypeScript", "refactorizar tipados", "migrar de JavaScript a TypeScript", o menciona tipos mapeados, tipos literales de plantilla, o tipos utilitarios. Proporciona guía completa para construir aplicaciones type-safe.
+```
+
+**Bad example:**
+
+```yaml
+description: Use when working with TypeScript types.  # Wrong language, vague, no triggers
+```
+
+#### For Agents (Third Person)
+
+Agents also use third-person format with triggering conditions:
+
+```yaml
+---
+name: agent-name
+description: Este agente debe usarse cuando [condición específica 1], [condición específica 2], o cuando se necesite [capacidad específica]. [Descripción de lo que hace].
+---
+```
+
+**Characteristics:**
+
+- Start with "Este agente debe usarse cuando..."
+- Describe conditions, not user phrases (agents are invoked by Claude, not users)
+- Focus on scenarios and technical conditions
+- Be specific about what the agent analyzes, generates, or validates
+
+**Good example:**
+
+```yaml
+description: Este agente debe usarse cuando se crean nuevos módulos de 3+ archivos, se modifican 4+ archivos, o tras ejecutar un plan aprobado con 5+ archivos. Asegura que el código nuevo siga los patrones y convenciones del proyecto existente.
+```
+
+### Introspection for Activation Keywords
+
+When creating or refining frontmatter, engage in collaborative introspection:
+
+- **Ask Diego about real usage patterns**: "¿Cómo describirías esta tarea cuando me la pides?"
+- **Test trigger phrases**: Present 3-4 trigger phrase options and ask which feels most natural
+- **Explore related vocabulary**: "¿Qué otras palabras usarías para pedir esto?"
+- **Validate context mentions**: "Además de estas frases, ¿qué conceptos o términos técnicos mencionarías?"
+- **Iterate based on feedback**: After creating frontmatter, ask "¿Estas frases de activación capturan bien cuándo usarías esta skill/agent?"
+
+**Introspection benefits:**
+
+- Captures Diego's natural language patterns
+- Increases activation accuracy
+- Reduces false negatives (skill/agent not triggering when it should)
+- Creates more intuitive plugin experience
+
+### Progressive Disclosure (Skills Only)
+
+Skills should follow progressive disclosure:
+
+1. **SKILL.md body**: Core concepts, essential procedures (1,500-2,000 words ideal, <3,000 max)
+2. **references/**: Detailed patterns, advanced techniques, comprehensive docs (2,000-5,000+ words each)
+3. **examples/**: Working code, configuration files, templates
+4. **scripts/**: Validation, testing, automation utilities
+
+Keep frontmatter + core content lean; move detailed information to references.
+
+### Writing Style
+
+**Body content (Skills & Agents):**
+
+- Use imperative/infinitive form (verb-first instructions)
+- NOT second person ("you should...")
+- Objective, instructional language
+
+**Correct:**
+
+```markdown
+Para crear un hook, definir el tipo de evento.
+Validar la configuración antes de usar.
+```
+
+**Incorrect:**
+
+```markdown
+Debes crear un hook definiendo el tipo de evento.
+Tienes que validar la configuración.
+```
+
+### Validation Checklist
+
+Before finalizing agent/skill:
+
+- [ ] Description in Spanish
+- [ ] Third-person format ("Esta skill debe usarse cuando..." / "Este agente debe usarse cuando...")
+- [ ] Up to 8 specific trigger phrases (skills) or conditions (agents)
+- [ ] Contextual mentions included
+- [ ] Value proposition clear
+- [ ] Body uses imperative form
+- [ ] Progressive disclosure applied (skills)
+- [ ] Introspection performed with Diego for activation keywords
 
 ## Stow Setup
 
