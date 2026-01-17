@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Esta skill debe usarse cuando el usuario pide "crear un PR", "crear pull request", "generar PR", "preparar descripción de PR", o "escribir PR".
+description: Esta skill debe usarse cuando el usuario pide "crea el PR", "prepara el PR", "escribe el PR", "genera el PR", "draft del PR", "documenta el PR", "crea la descripción del PR", o menciona crear pull request manualmente. Proporciona formato estructurado adaptado al tamaño de los cambios.
 ---
 
 Create a pull request text on a file named `<current-branch>-PR.md` on English language
