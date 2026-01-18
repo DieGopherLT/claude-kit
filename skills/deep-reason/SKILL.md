@@ -1,8 +1,9 @@
 ---
 name: deep-reason
-description: Esta skill debe usarse cuando el usuario pide "pensar esto a fondo", "analizar paso a paso", "evaluar opciones", "razonar sobre esto", "pensar detenidamente", "meditar", o ante problemas con descripciones extensas, múltiples soluciones posibles, alcance difuso, 3+ opciones a evaluar, o tras 2-3 intentos fallidos que requieren replantear estrategia.
+description: Esta skill debe usarse cuando el usuario pide "pensar esto a fondo", "analizar paso a paso", "evaluar opciones", "razonar sobre esto", "pensar detenidamente", "meditar", o ante problemas con descripciones extensas, múltiples soluciones posibles, alcance difuso, 3+ opciones a evaluar, o tras 2-3 intentos fallidos que requieren replantear estrategia. Esta skill tiene preferencia a usar sequential-thinking directamente.
 model: claude-opus-4-5-20251101
 version: 0.1.0
+user-invocable: true
 ---
 
 To engage in deep, structured reasoning for complex problems, apply the sequential-thinking approach with these guidelines:
