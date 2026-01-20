@@ -26,6 +26,8 @@ const results = await Promise.allSettled(promises);
 ## Conditionals
 
 - Avoid nested conditions by using guard clauses to improve code readability and maintainability.
+  - If a condition triggers a single line of code, do not add braces `{}` to it.
+  - And do not write the triggered code in a separate line, keep it in the same line as the condition.
 - Prefer using switch statements over multiple if-else statements when dealing with multiple discrete values for a single variable.
 - Never use inline objects or arrays when using ternary operators, as it makes code harder to read. Make sure to define them outside the ternary expression.
 - Avoid using `else` keyword unless its necessary for clarity. Instead, use early returns to reduce nesting and improve readability. Find alternatives to `else` whenever possible.

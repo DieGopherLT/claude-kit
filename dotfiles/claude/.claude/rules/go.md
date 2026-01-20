@@ -4,7 +4,7 @@ paths: **/*.go
 
 # Go Standards
 
-These are my preferences and guidelines for writing Go code.
+These are user's preferences and guidelines for writing Go code.
 
 ## General
 
@@ -30,12 +30,20 @@ Choose one of the following strategies for naming packages:
 - Use camel case for unexported symbols (e.g., `calculateSum`, `fetchData`).
 - When exporting a function that serves as a constructor for a struct, name it `New<Type>` (e.g., `NewClient`, `NewServer`).
   - Unless it is obvious from the package name (e.g., `database.NewDB`, it should be `database.New`).
+- Always document symbols for a comprehensive GoDoc documentation, if no docs exist, add them.
 
 ## Concurrency
 
 - Do not use anonymous goroutines for long-running tasks; always name them for better stack traces.
   - In general, avoid anonymous goroutines unless they are very short-lived and simple.
 - When using `sync.WaitGroup`, always pass it by parameters (reference) to goroutines for better traceability.
+
+## File organization
+
+- Group related functions and types together in the same file.
+- Separate files by functionality when they grow too large (e.g., `handlers.go`, `models.go`, `utils.go`).
+  - In most cases, use a single file `types.go` for all the types of a package unless it grows too large.
+- When writing or refactoring code, write in the upper part of the file the public API (exported functions and types), and then the private implementation details below.
 
 ## Libraries
 
