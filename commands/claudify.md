@@ -41,7 +41,7 @@ Use this as baseline context. Your task is to:
 
 Scope:
   - Start points: $1 directory and all subdirectories
-  - Include: Source files, configuration, tests (for understanding patterns)
+  - Include: Source files, configuration, environment variables & tests (for understanding patterns)
   - Exclude: node_modules, vendor, dist, build artifacts
 
 Deliverables:
@@ -66,6 +66,8 @@ Based on the exploration results, create or update the CLAUDE.md file in the $1 
 ```markdown
 # [Module Name]
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 ## Overview
 [1-2 sentences: purpose and role in system]
 
@@ -78,6 +80,8 @@ Based on the exploration results, create or update the CLAUDE.md file in the $1 
 - **file**: [role/purpose in <20 words]
 - **file**: [role/purpose in <20 words]
 
+**Note**: Symbol names allow efficient navigation using `LSP`.
+
 ## Business Logic
 [Concise explanation of core workflows, decision logic, and state management]
 
@@ -88,6 +92,9 @@ Based on the exploration results, create or update the CLAUDE.md file in the $1 
 
 **External:**
 - package: [purpose]
+
+**Environment Variables:**
+- `VAR_NAME`: [purpose]
 
 ## Architecture
 [Key patterns, design decisions, architectural style]
@@ -124,9 +131,15 @@ This CLAUDE.md is my map for navigating this module. I commit to:
 
 Last verified: [current date]
 
-```
-
 ```markdown
+
+### Update guidelines:
+
+- Re-write files as you were creating them from scratch.
+- Do not convert CLAUDE.md into changelogs or release notes.
+- Ensure the format specified above is strictly followed without deviations.
+  - Tear down and rebuild existing sections if needed. Follow the exact structure.
+- If any pitfalls gets solved, remove them from the list.  
 
 ### Token Efficiency Rules
 - Bullet points over paragraphs
@@ -159,6 +172,7 @@ After creating or updating the CLAUDE.md file, report:
 
 Claude, this CLAUDE.md is YOUR MAP. A wrong map means you'll be lost navigating this module. Before finishing, ask yourself:
 
+> "Is the CLAUDE.md file in the exact format as specified?" No variations allowed.
 > "Is this documentation up to date & telling the absolute truth in the current state of the module?"
 > "Am I referencing correctly all the symbols, functions, files, and business logic involved?"
 > "Did I vow to be as token-efficient as possible while still being comprehensive?"
