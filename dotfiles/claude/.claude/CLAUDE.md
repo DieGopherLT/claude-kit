@@ -41,7 +41,22 @@
 
 ## Tools & Workflows
 
-### General Operations
+- Prioritize using `claudefiles` plugin skills.
+  - That plugin is user's set of custom skills for his personal workflows.
+- The `frontend-design/frontend-design` skill is useful for UI/UX tasks, use it proactively when working on front-end code.
+  - Of course follow project's design system and guidelines first.
+
+### Git operations
 
 - File moves: use `git mv` instead of rewriting
 - When commiting code, do not include any co-authorying information.
+- Branch names: short, descriptive, kebab-case (feature/add-login, fix/payment-bug)
+  - Always create a branch when user requests a feature or bugfix.
+- Do not commit changes until user approves them.
+- Commit messages: one line summary up to 72 chars using prefixes (feat:, fix:, docs:, style:, refactor:, test:, chore:, wip:)
+  - Example: `feat: add user authentication with JWT`
+- Pull requests: **ALWAYS** use the `claudefiles:create-pr` skill unless told otherwise.
+- Branch order: user's like the cleanest possible history.
+  - Prefer rebase and squash over merge commits; only merge when fast-forward is possible.
+  - Avoid unnecessary commits that don't add value.
+  - Combine small related changes into single commits.
