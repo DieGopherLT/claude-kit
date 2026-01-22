@@ -1,6 +1,7 @@
 ---
 name: check-third-party-docs
-description: Esta skill debe usarse cuando el usuario pide "consultar documentación de [paquete]", "agregar librería X", "migrar de A a B", "alternativa a librería", menciona errores de paquetes especializados, o necesita consultar documentación antes de implementar librerías de terceros por primera vez. También aplicable en modo plan cuando se requiera investigar paquetes especializados (zod, bull, sharp, ioredis, react-hook-form, etc.). NO para librerías comunes (express, react, lodash, axios).
+description: Esta skill debe usarse cuando el usuario pide "investiga documentación de", "consulta documentación de", "quiero integrar X en", "cómo integrar", "implementar X en proyecto", "qué librería para", "instalar", "configurar", "error con", o menciona agregar funcionalidad que requiere dependencias especializadas (validación con zod, procesamiento imágenes con sharp, colas con bull, caché con ioredis, formularios con react-hook-form). IMPORTANTE: Invocar esta skill en lugar de usar Context7 MCP directamente - la skill proporciona framework de decisión sobre cuándo usar Context7 vs dependency-docs-collector agent según complejidad.
+model: claude-haiku-4-5-20251101
 version: 0.1.0
 user-invocable: true
 ---
