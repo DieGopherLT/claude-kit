@@ -1,6 +1,6 @@
 ---
 name: typescript-advanced-types
-description: Esta skill debe usarse cuando el usuario pide "dominar el sistema de tipos de TypeScript", "implementar tipos genéricos", "crear tipos condicionales", "refactorizar biblioteca TypeScript", "refactorizar tipados", "migrar de JavaScript a TypeScript", "diseñar tipos seguros", "crear utilidades de tipos reutilizables", o menciona planificación de bibliotecas Typescript, tipos literales de plantilla, o tipos utilitarios. Proporciona guía completa para construir aplicaciones type-safe con el sistema de tipos avanzado de TypeScript.
+description: Esta skill debe usarse cuando el usuario pide "planear biblioteca TypeScript", "crear módulo reutilizable", "refactorizar tipados", "refactorizar tipos de un módulo", o cuando estés en modo plan y el diseño requiera tipados fuertes de TypeScript, sistemas extensibles, o arquitecturas type-safe. Especialmente útil para planear sistemas de notificaciones, background jobs, cores de aplicación, o módulos pluggables que requieran tipos complejos. Proporciona guía completa para diseñar y construir módulos y bibliotecas type-safe con el sistema de tipos avanzado de TypeScript.
 user-invocable: true
 ---
 
