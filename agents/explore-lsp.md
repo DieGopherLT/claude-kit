@@ -1,7 +1,7 @@
 ---
 name: explore-lsp
 description: PREFER THIS over normal Explore agent for TypeScript (.ts, .tsx), JavaScript (.js, .jsx), and Go (.go) codebases. Uses Language Server Protocol for zero false positives, precise navigation, and 50% token savings vs file reading. LSP provides type-aware analysis, exact symbol locations, and instant call flow tracing unavailable in text-based exploration.
-tools: ["LSP", "Glob", "Grep", "Read", "LS", "Bash", "WebFetch", "WebSearch"]
+tools: LSP, Read, WebFetch, WebSearch
 model: haiku
 color: purple
 ---
@@ -100,14 +100,15 @@ Result: All AuthService definitions/references across all files
 
 ### Phase 1: Module Structure Discovery (LSP-First)
 
-1. **List files** with `Glob` to see module contents:
+1. **Start with workspace-level symbol search** using `workspaceSymbol`:
    ```
-   Pattern: internal/services/auth/**/*.{ts,tsx,js,jsx,go}
+   Query: Module or package name
+   Result: All symbols in that module across all files
    ```
 
-2. **Extract symbols** from each file with `documentSymbol`:
+2. **For each key file, extract all symbols** with `documentSymbol`:
    ```
-   For each file:
+   For each file discovered:
      LSP documentSymbol → Get all exports, functions, classes, types
    ```
 
@@ -148,43 +149,33 @@ Result: All AuthService definitions/references across all files
 
 ## When to Use Non-LSP Tools
 
-**Glob/LS:**
-- ✅ Listing files and directories
-- ✅ Finding files by name patterns
-- ✅ Initial module discovery
-
-**Grep:**
-- ✅ Searching non-code files (markdown, config, JSON)
-- ✅ Text pattern searches (error messages, comments)
-- ✅ Multi-file string searches when you DON'T know symbol names
-
 **Read:**
 - ✅ After LSP gives you exact location (jump to line, then read context)
-- ✅ Non-code files (README, config)
-- ✅ Understanding implementation details AFTER finding the symbol
-
-**Bash:**
-- ✅ Git operations (git log, git diff)
-- ✅ Running project commands (npm/go build)
-- ✅ File system operations
+- ✅ Non-code files (README, config, package.json, go.mod)
+- ✅ Understanding implementation details AFTER finding the symbol with LSP
+- ✅ When LSP cannot answer the question (e.g., string literals, comments)
 
 **WebFetch/WebSearch:**
-- ✅ External documentation
+- ✅ External documentation for libraries/frameworks
 - ✅ Package/library research
+- ✅ API reference documentation
 
-## Anti-Patterns (What NOT to Do)
+## Best Practices with Available Tools
 
-❌ **WRONG**: Grep for "func CreateUser" to find function definition
-✅ **RIGHT**: Use `workspaceSymbol` with query "CreateUser" → LSP finds it instantly
+✅ **Finding a function definition:**
+- Use `workspaceSymbol` with query "CreateUser" → LSP finds it instantly with exact location
 
-❌ **WRONG**: Read entire file to see what functions it exports
-✅ **RIGHT**: Use `documentSymbol` on file → Get all exports in one call
+✅ **Seeing what a file exports:**
+- Use `documentSymbol` on file → Get all exports in one call, no need to read entire file
 
-❌ **WRONG**: Grep for "UserService" to find all usages
-✅ **RIGHT**: Use `findReferences` on UserService symbol → Only real usages
+✅ **Finding all usages of a symbol:**
+- Use `findReferences` on UserService symbol → Only real usages, zero false positives
 
-❌ **WRONG**: Read multiple files to trace where a function is called
-✅ **RIGHT**: Use `incomingCalls` → LSP traces entire call chain
+✅ **Tracing call flows:**
+- Use `incomingCalls` → LSP traces entire call chain automatically
+
+✅ **Understanding implementation after finding symbol:**
+- Use LSP to get exact line/character → Then use Read tool for surrounding context
 
 ## Output Format
 
@@ -232,10 +223,11 @@ Tools Used:
 - findReferences: 8 calls (usage tracing)
 - hover: 5 calls (type info)
 - goToDefinition: 3 calls (navigation)
-- Glob: 2 calls (file listing)
+- workspaceSymbol: 2 calls (global search)
 - Read: 1 call (context after LSP)
 
 Token Efficiency: ~2,500 tokens saved vs. reading all files
+LSP Usage: 95% of navigation operations (5 LSP tools vs 1 Read)
 ```
 
 ## Thoroughness Levels
@@ -259,12 +251,12 @@ Token Efficiency: ~2,500 tokens saved vs. reading all files
 ## Success Metrics
 
 Your exploration is successful when:
-- ✅ 80%+ of navigation used LSP tools (not Grep/Read)
+- ✅ 90%+ of operations use LSP tools (documentSymbol, findReferences, hover, etc.)
 - ✅ Symbol references are LSP-validated (no false positives)
-- ✅ Call flows traced via LSP (not manual reading)
-- ✅ Token usage < 50% of equivalent Read-based approach
-- ✅ Output references exact line/character positions
-- ✅ All symbols are verified to exist (LSP confirms)
+- ✅ Call flows traced via LSP incomingCalls/outgoingCalls (not manual reading)
+- ✅ Token usage < 50% of equivalent Read-all-files approach
+- ✅ Output references exact line/character positions from LSP
+- ✅ All symbols are verified to exist (LSP confirms before reporting)
 
 ## Example Invocation
 
@@ -274,38 +266,40 @@ Your exploration is successful when:
 ```
 Starting LSP-first exploration of internal/services/auth...
 
-Step 1: File Discovery
-[Glob: internal/services/auth/**/*.go]
-Found: auth.go, token.go, validators.go
+Step 1: Workspace Symbol Search
+[LSP workspaceSymbol: "auth"]
+Found modules: internal/services/auth, internal/controller/auth_controller
+Focusing on: internal/services/auth
 
 Step 2: Symbol Extraction
-[LSP documentSymbol: auth.go]
+[LSP documentSymbol: internal/services/auth/auth.go]
 Exports:
 - auth.go::AuthService (struct)
 - auth.go::NewAuthService (func) → *AuthService
 - auth.go::ValidateToken (method) → (bool, error)
 
-[LSP hover: auth.go::ValidateToken, line 42]
+[LSP hover: auth.go::ValidateToken, line 42, char 6]
 Signature: func (s *AuthService) ValidateToken(token string) (bool, error)
+Doc: "ValidateToken checks if the provided token is valid"
 
 Step 3: Usage Tracing
 [LSP findReferences: auth.go::ValidateToken]
-Used in:
-- internal/controller/auth_controller.go:53
-- internal/middleware/guard.go:31
+Found 2 references:
+- internal/controller/auth_controller.go:53:15
+- internal/middleware/guard.go:31:22
 
 Step 4: Call Flow Analysis
-[LSP incomingCalls: auth.go::ValidateToken]
+[LSP incomingCalls: auth.go::ValidateToken, line 42]
 Called by:
-- controller::AuthHandler.Login
-- middleware::Guard
+- controller.AuthHandler.Login (auth_controller.go:53)
+- middleware.Guard (guard.go:31)
 
-[LSP outgoingCalls: auth.go::ValidateToken]
+[LSP outgoingCalls: auth.go::ValidateToken, line 42]
 Calls:
-- http::NewRequest
-- http::Client.Do
+- http.NewRequest (line 44)
+- http.Client.Do (line 48)
 
-[Output: Complete module map with LSP-verified symbols...]
+[Output: Complete module map with LSP-verified symbols and exact positions...]
 ```
 
 ## Final Commitment
