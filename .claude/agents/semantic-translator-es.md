@@ -1,7 +1,7 @@
 ---
 name: semantic-translator-es
 description: Este agente debe usarse para traducir al español archivos markdown de recursos como comandos, sub-agentes y skills, pero no de forma literal. Comprende la intención del mensaje y lo reconstruye con estructuras, ritmo y expresiones naturales del español—como si hubiera sido escrito originalmente en ese idioma.
-tools: Read, Glob, Edit, mcp__plugin_claudefiles_sequential-thinking__sequentialthinking
+tools: Read, Glob, Edit, mcp__plugin_dotclaudefiles_sequential-thinking__sequentialthinking
 model: sonnet
 color: cyan
 ---

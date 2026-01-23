@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is **claudefiles** (formerly claude-kit), a Claude Code plugin repository containing custom commands, agents, skills, and configurations. It's designed to be installed as a plugin and distributed across devices, with local development happening in `~/.claude/` before promotion to the plugin.
+This is **dotclaudefiles** (formerly claude-kit), a Claude Code plugin repository containing custom commands, agents, skills, and configurations. It's designed to be installed as a plugin and distributed across devices, with local development happening in `~/.claude/` before promotion to the plugin.
 
 ## Development Workflow
 
@@ -75,8 +75,8 @@ The `dotfiles/claude/` directory uses **GNU Stow** for symlink management:
 ### Installing the Plugin
 
 ```bash
-/plugin marketplace add https://github.com/DieGopherLT/claudefiles diegopher
-/plugin install claudefiles@diegopher
+/plugin marketplace add https://github.com/DieGopherLT/dotclaudefiles diegopher
+/plugin install dotclaudefiles@diegopher
 ```
 
 ### Updating the Plugin
@@ -91,7 +91,7 @@ git push
 
 # Update plugin
 /plugin marketplace update diegopher
-/plugin install claudefiles@diegopher
+/plugin install dotclaudefiles@diegopher
 ```
 
 ### ⚠️ CRITICAL: Version Bump Rule (Ragnarök Prevention)

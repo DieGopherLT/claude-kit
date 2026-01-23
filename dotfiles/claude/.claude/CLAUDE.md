@@ -54,7 +54,7 @@
 
 ## Tools & Workflows
 
-- Prioritize using `claudefiles` plugin skills.
+- Prioritize using `dotclaudefiles` plugin skills.
   - That plugin is user's set of custom skills for his personal workflows.
 - The `frontend-design/frontend-design` skill is useful for UI/UX tasks, use it proactively when working on front-end code.
   - Of course follow project's design system and guidelines first.
@@ -69,7 +69,7 @@
 - Do not commit changes until user approves them.
 - Commit messages: one line summary up to 96 chars using prefixes (feat:, fix:, docs:, style:, refactor:, test:, chore:, wip:)
   - Example: `feat: add user authentication with JWT`, `fix: resolve payment processing bug`
-- Pull requests: **ALWAYS** use the `claudefiles:create-pr` skill unless told otherwise.
+- Pull requests: **ALWAYS** use the `dotclaudefiles:create-pr` skill unless told otherwise.
 - Branch order: user likes the cleanest possible history.
   - Prefer rebase and squash over merge commits; only merge when fast-forward is possible.
   - Avoid unnecessary commits that don't add value.

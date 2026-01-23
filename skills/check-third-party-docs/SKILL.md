@@ -135,7 +135,7 @@ User: "Configure testing with Jest, React Testing Library, MSW"
 
 ```typescript
 Task({
-  subagent_type: "claudefiles:dependency-docs-collector",
+  subagent_type: "dotclaudefiles:dependency-docs-collector",
   prompt: `
     User wants to [add library X for Y feature / migrate from A to B / find alternative to C].
     Context: [language, framework, specific problem]
@@ -237,4 +237,4 @@ Use this skill for:
 ---
 
 **Version:** 0.1.0
-**Plugin:** claudefiles
+**Plugin:** dotclaudefiles
