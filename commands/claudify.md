@@ -1,10 +1,12 @@
 ---
-description: Generate/update token-efficient CLAUDE.md for module documentation. Triggers: document module, onboarding, understand business logic, claudify, module docs
+description: Generate/update LSP-optimized, token-efficient CLAUDE.md for module documentation. Triggers: document module, onboarding, understand business logic, claudify, module docs
 argument-hint: <module-relative-path>
 model: sonnet
 ---
 
 You are tasked with generating comprehensive yet token-efficient documentation for the module: **$1**
+
+**Format Philosophy**: LSP-optimized symbol references (`file::Symbol`) enable precise code navigation with zero false positives, reducing token usage while improving navigation accuracy.
 
 ## Step 0: Check for Existing Documentation
 
@@ -80,7 +82,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **file**: [role/purpose in <20 words]
 - **file**: [role/purpose in <20 words]
 
-**Note**: Symbol names allow efficient navigation using `LSP`.
+**Note**: Symbol references use LSP-optimized format (`file::Symbol`) for:
+- `goToDefinition`: Jump directly to symbol location
+- `findReferences`: Find all real usages (zero false positives)
+- `hover`: Get type info and documentation instantly
+- `documentSymbol`: Navigate file structure without reading full content
 
 ## Business Logic
 [Concise explanation of core workflows, decision logic, and state management]
@@ -143,12 +149,18 @@ Last verified: [current date]
 
 ### Token Efficiency Rules
 - Bullet points over paragraphs
-- Symbol references: `file::FunctionName` or `file::Class.method` format
-- File references: `relative-path` format
-- Descriptions <20 words
-- Focus on "why" over "what"
-- Omit obvious details, focus on business logic
-- Use clear abbreviations
+- **Symbol references**: `file::FunctionName` or `file::Class.method` format (LSP-optimized for precise navigation)
+- **File references**: `relative-path` format
+- **Descriptions**: <20 words
+- **Focus**: "why" over "what"
+- **Omit**: obvious details, focus on business logic
+- **Abbreviations**: clear and consistent
+
+**LSP Optimization Benefits:**
+- **Precise navigation**: LSP resolves `file::Symbol` to exact line/character position
+- **Zero false positives**: `findReferences` finds only real usages, not comments/strings
+- **Token savings**: No need to read entire files - LSP provides targeted info
+- **Automated verification**: Can validate symbol existence and update references programmatically
 
 ### Your Commitment
 This CLAUDE.md is your navigation map for this module. You commit to:
@@ -175,7 +187,10 @@ Claude, this CLAUDE.md is YOUR MAP. A wrong map means you'll be lost navigating 
 > "Is the CLAUDE.md file in the exact format as specified?" No variations allowed.
 > "Is this documentation up to date & telling the absolute truth in the current state of the module?"
 > "Am I referencing correctly all the symbols, functions, files, and business logic involved?"
+> "Are all symbol references LSP-resolvable (can I use goToDefinition/findReferences on them)?"
 > "Did I vow to be as token-efficient as possible while still being comprehensive?"
 > "Did I vow to update this documentation every time the module changes in the future?"
 
 If any question is answered NO, then keep iterating until you can answer YES with confidence.
+
+**Pro tip**: After generating CLAUDE.md, test a few symbol references with LSP tools to verify they resolve correctly.

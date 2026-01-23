@@ -6,12 +6,22 @@ paths: **/*.go
 
 These are user's preferences and guidelines for writing Go code.
 
+## LSP Tool - Mandatory
+
+- **PREFER `LSP` tool over Grep/Glob** for code navigation (more precise, fewer tokens, AND **NO FALSE POSITIVES**):
+  - Finding definitions: `goToDefinition` → jump directly to where symbol is defined
+  - Finding all usages: `findReferences` → only real usages, not comments/strings
+  - Understanding structure: `documentSymbol` → see all methods/properties without reading full file
+  - Tracing call flows: `incomingCalls`/`outgoingCalls` → who calls this function, what does it call
+  - Type information: `hover` → get types/docs without opening files
+  - **Use Grep/Glob only for**: text patterns, multi-file search, non-code files, initial exploration
+
 ## General
 
 - Always ensure code compiles and passes tests before submitting changes.
-- Do not sleep on `LSP` tool for code navigation and symbol exploration.
 - Use `go fmt` to format code consistently when finishing coding.
 - Use a `bin` directory in projects to output compiled binaries.
+- Compile the project before summarizing changes.
 
 ## Package naming guidelines
 

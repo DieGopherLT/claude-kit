@@ -6,6 +6,16 @@ paths: **/*.{ts,js,tsx,jsx}
 
 When about to install, update or delete dependencies, check which package manager is being used in the project (npm, yarn or pnpm) and use it consistently.
 
+## LSP Tool - Mandatory
+
+- **PREFER `LSP` tool over Grep/Glob** for code navigation (more precise, fewer tokens, AND **NO FALSE POSITIVES**):
+  - Finding definitions: `goToDefinition` → jump directly to where symbol is defined
+  - Finding all usages: `findReferences` → only real usages, not comments/strings
+  - Understanding structure: `documentSymbol` → see all methods/properties without reading full file
+  - Tracing call flows: `incomingCalls`/`outgoingCalls` → who calls this function, what does it call
+  - Type information: `hover` → get types/docs without opening files
+  - **Use Grep/Glob only for**: text patterns, multi-file search, non-code files, initial exploration
+
 ## Promises
 
 - Use `Promise.allSettled()` instead of `Promise.all()` unless you need to fail fast
