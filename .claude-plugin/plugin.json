@@ -1,12 +1,12 @@
 {
-  "name": "claudefiles",
+  "name": "dotclaudefiles",
   "version": "1.11.4",
   "description": "Diego's curated Claude Code commands, agents, skills, and MCP servers. Includes custom slash commands for code review, testing, scaffolding, security scanning, specialized agents for quality auditing and UI implementation, plus sequential-thinking MCP server.",
   "author": {
     "name": "Diego",
     "url": "https://github.com/DieGopherLT"
   },
-  "repository": "https://github.com/DieGopherLT/claudefiles",
+  "repository": "https://github.com/DieGopherLT/dotclaudefiles",
   "license": "MIT",
   "keywords": [
     "commands",
