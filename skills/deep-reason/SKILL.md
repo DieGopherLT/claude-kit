@@ -3,7 +3,6 @@ name: deep-reason
 description: Esta skill debe usarse cuando el usuario pide "pensemos esto a fondo", "analicemos paso a paso", "evaluemos opciones", "razonemos sobre esto", "pensemos detenidamente", "meditemos", "qué me sugieres", "qué me recomiendas", "esto es complejo", "esto es complicado", "problema grande", o ante problemas que requieren análisis profundo, afectan múltiples componentes del sistema, tienen implicaciones arquitectónicas importantes, o representan decisiones de diseño con impacto significativo. IMPORTANTE: Invocar esta skill en lugar de usar sequential-thinking MCP directamente - la skill proporciona workflow estructurado con generación de documentos de análisis.
 model: claude-opus-4-5-20251101
 version: 0.1.0
-user-invocable: true
 ---
 
 To engage in deep, structured reasoning for complex problems, apply the sequential-thinking approach with these guidelines:
