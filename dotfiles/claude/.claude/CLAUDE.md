@@ -66,6 +66,7 @@
 When exploring codebases with TypeScript (.ts, .tsx), JavaScript (.js, .jsx), or Go (.go) files, **PREFER** the `dotclaudefiles:explore-lsp` agent over the standard `Explore` agent.
 
 **Use `dotclaudefiles:explore-lsp` when:**
+
 - ✅ Codebase contains .ts, .tsx, .js, .jsx, .go files
 - ✅ Need to understand module structure, exports, or architecture
 - ✅ Tracing call flows or dependencies
@@ -74,11 +75,13 @@ When exploring codebases with TypeScript (.ts, .tsx), JavaScript (.js, .jsx), or
 - ✅ Need zero false positives in symbol searches
 
 **Use standard `Explore` when:**
+
 - ❌ Codebase is Python, Rust, C#, or other non-LSP languages
 - ❌ Exploring non-code files (markdown, configs, data files)
 - ❌ Broad text pattern searches across mixed file types
 
 **Why explore-lsp is superior for TS/JS/Go:**
+
 - Built with LSP-first philosophy (documentSymbol, findReferences, hover, call tracing)
 - Type-aware analysis (understands code semantics, not just text)
 - Exact line/character positions for every symbol
@@ -137,12 +140,11 @@ Prompt includes: "This Go codebase requires LSP. Use `goToDefinition` to underst
 - File deletions: use `git rm` instead of regular `rm`.
 - When committing code, do not include any CLAUDE co-authoring information.
 - Branch names: short, descriptive, kebab-case (feature/add-login, fix/payment-bug)
-  - Always create a branch when user requests a feature or bugfix.
+  - **Personal repos**: Commit to main by default; use `AskUserQuestion` to confirm if user wants a branch for larger changes
+  - **Collaborative repos**: Always create a branch for features/fixes
+  - When unsure if repo is personal or collaborative, ask using `AskUserQuestion`
 - Do not commit changes until user approves them.
-- Commit messages: one line summary up to 96 chars using prefixes (feat:, fix:, docs:, style:, refactor:, test:, chore:, wip:)
+- Commit messages: **single line only**, max 96 chars, no body, using prefixes (feat:, fix:, docs:, style:, refactor:, test:, chore:, wip:)
   - Example: `feat: add user authentication with JWT`, `fix: resolve payment processing bug`
+  - Never add multi-line bodies or bullet points after the summary
 - Pull requests: **ALWAYS** use the `dotclaudefiles:create-pr` skill unless told otherwise.
-- Branch order: user likes the cleanest possible history.
-  - Prefer rebase and squash over merge commits; only merge when fast-forward is possible.
-  - Avoid unnecessary commits that don't add value.
-  - Combine small related changes into single commits.
