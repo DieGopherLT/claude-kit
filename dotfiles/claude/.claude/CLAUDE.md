@@ -59,80 +59,74 @@
 - The `frontend-design/frontend-design` skill is useful for UI/UX tasks, use it proactively when working on front-end code.
   - Of course follow project's design system and guidelines first.
 
-### Explore and Plan sub-agents
+### The LSP Chain (Code Exploration Methodology)
 
-**AGENT SELECTION - LSP-Optimized vs Standard:**
+**Applies to**: `.js`, `.jsx`, `.ts`, `.tsx`, `.go`
 
-When exploring codebases with TypeScript (.ts, .tsx), JavaScript (.js, .jsx), or Go (.go) files, **PREFER** the `dotclaudefiles:explore-lsp` agent over the standard `Explore` agent.
+Hybrid flow combining text search for discovery with LSP for deep semantic analysis.
 
-**Use `dotclaudefiles:explore-lsp` when:**
+**Flow:**
 
-- ✅ Codebase contains .ts, .tsx, .js, .jsx, .go files
-- ✅ Need to understand module structure, exports, or architecture
-- ✅ Tracing call flows or dependencies
-- ✅ Finding symbol definitions or usages
-- ✅ Want 50%+ token savings vs file reading
-- ✅ Need zero false positives in symbol searches
+```text
+[Glob/Grep] → Candidate file
+    ↓
+[Already indexed?] ──Yes──→ Skip documentSymbol
+    ↓ No                          ↓
+[documentSymbol] ←────────────────┘
+    ↓
+[Selective Read] → Only if you need context
+    ↓
+[hover/goToDefinition] → Understand symbol
+    ↓
+[findReferences/incomingCalls] → Expand to other files
+    ↓
+[Dead end?]
+    ↓ No              ↓ Yes
+    ↻ next            [Glob/Grep] → New chain
+      file
+```
 
-**Use standard `Explore` when:**
+**Dead end** = references lead to external dependencies (node_modules, stdlib) OR symbol is a leaf (no internal dependencies).
 
-- ❌ Codebase is Python, Rust, C#, or other non-LSP languages
-- ❌ Exploring non-code files (markdown, configs, data files)
-- ❌ Broad text pattern searches across mixed file types
+**Memoization rules:**
 
-**Why explore-lsp is superior for TS/JS/Go:**
+- `documentSymbol` only once per file (no re-indexing)
+- `Read` optional even on already indexed files
+- Cache is contextual during the session
 
-- Built with LSP-first philosophy (documentSymbol, findReferences, hover, call tracing)
-- Type-aware analysis (understands code semantics, not just text)
-- Exact line/character positions for every symbol
-- Zero false positives (no matches in comments/strings)
-- Configured with Haiku model for fast, cost-effective exploration
+**When to use each tool:**
+
+| Tool                          | Use for                                            |
+| ----------------------------- | -------------------------------------------------- |
+| `Glob/Grep`                   | Initial discovery, non-code files, text patterns   |
+| `documentSymbol`              | File index (functions, classes, exports)           |
+| `hover`                       | Symbol types and documentation                     |
+| `goToDefinition`              | Jump to definition                                 |
+| `findReferences`              | All usages of a symbol                             |
+| `incomingCalls/outgoingCalls` | Trace call flow                                    |
+
+**For other languages** (Python, Rust, C#, etc.): use standard Glob/Grep/Read.
 
 ---
 
-**CRITICAL**: When invoking Explore or Plan agents for codebases containing TypeScript (.ts, .tsx), JavaScript (.js, .jsx), or Go (.go) files, you MUST include explicit LSP usage instructions in your prompt.
+**Explore and Plan sub-agents:**
 
-**Mandatory prompt format:**
+When invoking sub-agents to explore JS/TS/Go code, include in the prompt:
 
+```text
+[Task description]
+
+**Exploration with "The LSP Chain":**
+1. Use Glob/Grep to find candidate files
+2. documentSymbol to index structure (only once per file)
+3. Selective Read if you need full context
+4. hover/goToDefinition to understand specific symbols
+5. findReferences/incomingCalls to expand to other files
+6. Repeat until dead end (external dependency or leaf symbol)
+7. New chain with Glob/Grep from another file
+
+Do not re-index already visited files.
 ```
-[Your task description]
-
-**CRITICAL INSTRUCTION - LSP Tool Usage:**
-This codebase contains [TypeScript/JavaScript/Go] files. You MUST use the LSP tool for all code navigation tasks:
-
-- **Finding symbols/functions**: Use `documentSymbol` (NOT Grep) to list all symbols in a file
-- **Finding definitions**: Use `goToDefinition` (NOT Grep) to jump to where a symbol is defined
-- **Finding usages**: Use `findReferences` (NOT Grep) to find all real usages with ZERO false positives
-- **Understanding types**: Use `hover` to get type information and documentation
-- **Tracing calls**: Use `incomingCalls`/`outgoingCalls` to understand call flows
-
-**Why LSP is mandatory:**
-- ✅ Zero false positives (Grep finds matches in comments/strings)
-- ✅ Precise navigation (exact line/character positions)
-- ✅ Token efficiency (no need to read full files)
-- ✅ Type-aware analysis (understands code semantics)
-
-Only use Grep/Glob for:
-- Text pattern searches across multiple files
-- Non-code files (markdown, config files)
-- Initial broad exploration when you don't know symbol names yet
-
-Depth: [quick/medium/very thorough]
-```
-
-**Example invocations:**
-
-<example>
-Task: "Explore the authentication module"
-Prompt includes: "This TypeScript codebase requires LSP. Use `documentSymbol` on auth files to see all exported functions, then `findReferences` to trace usage, NOT Grep."
-</example>
-
-<example>
-Task: "Plan implementation for new API endpoint"
-Prompt includes: "This Go codebase requires LSP. Use `goToDefinition` to understand existing handler patterns, `hover` for type info, NOT file reading."
-</example>
-
-**Violation consequences:** Using Grep/Glob instead of LSP on TS/JS/Go files wastes tokens and produces false positives that mislead the analysis.
 
 ### Git operations
 
