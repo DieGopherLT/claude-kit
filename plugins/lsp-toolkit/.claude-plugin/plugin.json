@@ -1,0 +1,5 @@
+{
+  "name": "lsp-toolkit",
+  "version": "0.1.0",
+  "description": "Language Server Protocol toolkit for precise code exploration. Provides LSP-first methodology, agents, and patterns for zero false-positive code navigation in TypeScript, JavaScript, and Go codebases."
+}

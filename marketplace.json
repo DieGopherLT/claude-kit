@@ -1,0 +1,27 @@
+{
+  "name": "diegopher",
+  "owner": {
+    "name": "Diego López Torres",
+    "email": "diego@diegopher.dev"
+  },
+  "plugins": [
+    {
+      "name": "dotclaudefiles",
+      "description": "My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.",
+      "source": {
+        "source": "github",
+        "repo": "DieGopherLT/dotclaudefiles",
+        "path": "plugins/dotclaudefiles"
+      }
+    },
+    {
+      "name": "lsp-toolkit",
+      "description": "Language Server Protocol personal toolkit for Claude Code. Encouraging the use of LSP for more precise code understanding and navigation.",
+      "source": {
+        "source": "github",
+        "repo": "DieGopherLT/dotclaudefiles",
+        "path": "plugins/lsp-toolkit"
+      }
+    }
+  ]
+}
