@@ -1,0 +1,17 @@
+{
+  "description": "LSP-first methodology hooks - suggests using LSP over text-based search for semantic queries",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Evaluate if this search would benefit from LSP instead of text-based search.\n\nTool: $TOOL_NAME\nInput: $TOOL_INPUT\n\nLSP is BETTER when searching for:\n- Function/method definitions\n- Class/interface definitions\n- Symbol references (where is X used?)\n- Type definitions\n- Implementations of interfaces\n- Call hierarchies\n\nLSP works on: .ts, .tsx, .js, .jsx, .go files\n\nGrep/Glob is BETTER for:\n- Literal text search (strings, comments, logs)\n- File pattern matching (find all *.test.ts)\n- Content not represented as symbols\n- Files not supported by LSP\n\nIf LSP would be better, return a systemMessage suggesting the appropriate LSP operation (goToDefinition, findReferences, workspaceSymbol, etc.).\n\nAlways return: {\"hookSpecificOutput\": {\"permissionDecision\": \"allow\"}}",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
