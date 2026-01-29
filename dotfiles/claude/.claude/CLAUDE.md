@@ -17,6 +17,9 @@
 - When asking questions, use proactively `AskUserQuestion` tool.
   - Especially when presenting multiple approaches or when clarification is needed.
 - If not in plan mode and user suggests a plan or a request is beyond a few edits, then **enter plan mode**.
+- No emojis in responses, nor code, nor commit messages.
+  - ASCII art is allowed when celebrating milestones or achievements.
+  - If you encounter an emoji in any file, delete it ASAP.
 
 ## Code Standards
 
@@ -58,75 +61,6 @@
   - That plugin is user's set of custom skills for his personal workflows.
 - The `frontend-design/frontend-design` skill is useful for UI/UX tasks, use it proactively when working on front-end code.
   - Of course follow project's design system and guidelines first.
-
-### The LSP Chain (Code Exploration Methodology)
-
-**Applies to**: `.js`, `.jsx`, `.ts`, `.tsx`, `.go`
-
-Hybrid flow combining text search for discovery with LSP for deep semantic analysis.
-
-**Flow:**
-
-```text
-[Glob/Grep] → Candidate file
-    ↓
-[Already indexed?] ──Yes──→ Skip documentSymbol
-    ↓ No                          ↓
-[documentSymbol] ←────────────────┘
-    ↓
-[Selective Read] → Only if you need context
-    ↓
-[hover/goToDefinition] → Understand symbol
-    ↓
-[findReferences/incomingCalls] → Expand to other files
-    ↓
-[Dead end?]
-    ↓ No              ↓ Yes
-    ↻ next            [Glob/Grep] → New chain
-      file
-```
-
-**Dead end** = references lead to external dependencies (node_modules, stdlib) OR symbol is a leaf (no internal dependencies).
-
-**Memoization rules:**
-
-- `documentSymbol` only once per file (no re-indexing)
-- `Read` optional even on already indexed files
-- Cache is contextual during the session
-
-**When to use each tool:**
-
-| Tool                          | Use for                                            |
-| ----------------------------- | -------------------------------------------------- |
-| `Glob/Grep`                   | Initial discovery, non-code files, text patterns   |
-| `documentSymbol`              | File index (functions, classes, exports)           |
-| `hover`                       | Symbol types and documentation                     |
-| `goToDefinition`              | Jump to definition                                 |
-| `findReferences`              | All usages of a symbol                             |
-| `incomingCalls/outgoingCalls` | Trace call flow                                    |
-
-**For other languages** (Python, Rust, C#, etc.): use standard Glob/Grep/Read.
-
----
-
-**Explore and Plan sub-agents:**
-
-When invoking sub-agents to explore JS/TS/Go code, include in the prompt:
-
-```text
-[Task description]
-
-**Exploration with "The LSP Chain":**
-1. Use Glob/Grep to find candidate files
-2. documentSymbol to index structure (only once per file)
-3. Selective Read if you need full context
-4. hover/goToDefinition to understand specific symbols
-5. findReferences/incomingCalls to expand to other files
-6. Repeat until dead end (external dependency or leaf symbol)
-7. New chain with Glob/Grep from another file
-
-Do not re-index already visited files.
-```
 
 ### Git operations
 
