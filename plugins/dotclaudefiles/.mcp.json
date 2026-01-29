@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "sequential-thinking": {
+    "seq-think": {
       "command": "npx",
       "args": [
         "-y",

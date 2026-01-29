@@ -214,4 +214,4 @@
 
 ---
 
-**Note**: This document was generated using the `deep-reason` skill with the `sequential-thinking` MCP.
+**Note**: This document was generated using the `deep-reason` skill with the `seq-think` MCP.
