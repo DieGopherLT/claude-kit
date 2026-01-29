@@ -1,12 +1,23 @@
 # dotclaudefiles
 
-My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.
+My personal Claude Code plugins repository. Contains multiple plugins for different workflows.
+
+## Available Plugins
+
+| Plugin | Description |
+|--------|-------------|
+| `dotclaudefiles` | Commands, agents, skills, and configs I use daily |
+| `lsp-toolkit` | LSP-first methodology for precise code navigation |
 
 ## Install
 
 ```bash
+# Add marketplace (once)
 /plugin marketplace add https://github.com/DieGopherLT/dotclaudefiles diegopher
+
+# Install plugins
 /plugin install dotclaudefiles@diegopher
+/plugin install lsp-toolkit@diegopher
 ```
 
 ## Setup Dotfiles (Optional)
@@ -38,13 +49,16 @@ They both look almost identical, Go version made by me includes a visual context
 ## Update
 
 ```bash
-/plugin update dotclaudefiles@diegopher
+/plugin marketplace update diegopher
+/plugin install dotclaudefiles@diegopher
+/plugin install lsp-toolkit@diegopher
 ```
 
 ## Uninstall
 
 ```bash
 /plugin uninstall dotclaudefiles@diegopher
+/plugin uninstall lsp-toolkit@diegopher
 ```
 
 ---

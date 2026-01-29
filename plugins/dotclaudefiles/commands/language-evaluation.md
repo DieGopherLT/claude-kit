@@ -1,3 +1,7 @@
+---
+description: Evaluate user's English language usage at end of session for grammar, vocabulary, clarity, and technical writing improvement
+---
+
 # Language usage evaluation
 
 This command is generally invoked at the end of a session as a way to evaluate user's usage of language.
