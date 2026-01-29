@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Evaluate if this search would benefit from LSP instead of text-based search.\n\nTool: $TOOL_NAME\nInput: $TOOL_INPUT\n\nLSP is BETTER when searching for:\n- Function/method definitions\n- Class/interface definitions\n- Symbol references (where is X used?)\n- Type definitions\n- Implementations of interfaces\n- Call hierarchies\n\nLSP works on: .ts, .tsx, .js, .jsx, .go files\n\nGrep/Glob is BETTER for:\n- Literal text search (strings, comments, logs)\n- File pattern matching (find all *.test.ts)\n- Content not represented as symbols\n- Files not supported by LSP\n\nIf LSP would be better, return a systemMessage suggesting the appropriate LSP operation (goToDefinition, findReferences, workspaceSymbol, etc.).\n\nAlways return: {\"hookSpecificOutput\": {\"permissionDecision\": \"allow\"}}",
+            "prompt": "FAST CHECK: Does this search target LSP-supported files?\n\nInput: $TOOL_INPUT\n\nSTEP 1 - File type check:\nLook at glob/path/pattern. If it does NOT target .ts, .tsx, .js, .jsx, or .go files, STOP and return ONLY:\n{\"hookSpecificOutput\": {\"permissionDecision\": \"allow\"}}\n\nSTEP 2 - Only if targeting LSP files, check if search is semantic:\n- Symbol definitions (function, class, interface, type) -> suggest LSP workspaceSymbol/goToDefinition\n- References (where is X used?) -> suggest LSP findReferences\n- Call hierarchy -> suggest LSP incomingCalls/outgoingCalls\n- Literal text (strings, comments, logs, file patterns) -> allow Grep/Glob\n\nIf LSP is better, include systemMessage with suggested operation.\nAlways return: {\"hookSpecificOutput\": {\"permissionDecision\": \"allow\"}}",
             "timeout": 15
           }
         ]
