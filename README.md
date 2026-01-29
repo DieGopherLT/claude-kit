@@ -13,7 +13,7 @@ My personal Claude Code plugins repository. Contains multiple plugins for differ
 
 ```bash
 # Add marketplace (once)
-/plugin marketplace add https://github.com/DieGopherLT/dotclaudefiles diegopher
+/plugin marketplace add DieGopherLT/dotclaudefiles
 
 # Install plugins
 /plugin install dotclaudefiles@diegopher
