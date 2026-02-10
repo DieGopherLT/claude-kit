@@ -1,0 +1,20 @@
+{
+  "name": "smart-plan",
+  "version": "1.0.0",
+  "description": "Workflow inteligente de 9 fases para desarrollo de features con 6 agentes especializados, paralelizacion, analisis semantico via LSP, y quality gates automaticos.",
+  "author": {
+    "name": "Diego",
+    "url": "https://github.com/DieGopherLT"
+  },
+  "repository": "https://github.com/DieGopherLT/dotclaudefiles",
+  "license": "MIT",
+  "keywords": [
+    "feature-development",
+    "planning",
+    "architecture",
+    "code-review",
+    "lsp",
+    "parallel-execution",
+    "agents"
+  ]
+}
