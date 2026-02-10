@@ -9,9 +9,7 @@ These are user's preferences and guidelines for writing Go code.
 ## General
 
 - Always ensure code compiles and passes tests before submitting changes.
-- Use `go fmt` to format code consistently when finishing coding.
 - Use a `bin` directory in projects to output compiled binaries.
-- Compile the project before summarizing changes.
 
 ## Package naming guidelines
 

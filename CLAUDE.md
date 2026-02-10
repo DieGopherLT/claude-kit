@@ -17,7 +17,7 @@ The plugin uses a **development sandbox pattern**:
 5. **Plugin Update**: Commit changes and update plugin via Claude Code plugin system
 6. **Cleanup**: Remove local copies (they now come from the installed plugin)
 
-### 🔧 Using plugin-dev Resources (CRITICAL)
+### Using plugin-dev Resources (CRITICAL)
 
 **ALWAYS use the `plugin-dev` plugin for developing this repository.** It provides:
 
@@ -28,6 +28,11 @@ The plugin uses a **development sandbox pattern**:
 **The plugin-dev plugin was created by the Claude Code team specifically to make plugin development easier and follow official best practices.**
 
 **WARNING**: Failing to use `plugin-dev` resources means ignoring official Claude Code plugin development standards. Always consult these resources when creating or modifying plugin components.
+
+### Mandatory Workflows
+
+- **Hook creation/modification**: When the user asks to create or modify a hook, invoke `/hookify:hookify` immediately before writing any code. The skill provides the correct structure and patterns.
+- **Post-change validation**: After finishing ANY plugin change (commands, agents, skills, hooks, config), run the `plugin-validator` agent to verify the plugin structure remains valid. Do not skip this step.
 
 ## Repository Structure
 
@@ -40,6 +45,7 @@ The plugin uses a **development sandbox pattern**:
 ├── dotfiles/claude/     # Stow-managed configuration files
 │   ├── .claude/         # CLAUDE.md and language-specific rules
 │   └── .config/         # ccstatusline settings
+├── hooks/               # PostToolUse hooks for auto-format/lint
 ├── scripts/             # Stow setup scripts (bash, fish, PowerShell)
 └── .claude-plugin/      # Plugin metadata and marketplace info
 ```
