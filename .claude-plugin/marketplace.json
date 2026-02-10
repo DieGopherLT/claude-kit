@@ -14,6 +14,11 @@
       "name": "tdd",
       "description": "Test-Driven Development plugin with strict Red-Green-Refactor enforcement, testability auditing, and multi-language test implementation.",
       "source": "./plugins/tdd"
+    },
+    {
+      "name": "smart-plan",
+      "description": "9-phase feature development workflow with 6 specialized agents, parallelization, LSP semantic analysis, and automatic quality gates.",
+      "source": "./plugins/smart-plan"
     }
   ]
 }
