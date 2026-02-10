@@ -9,11 +9,6 @@
       "name": "dotclaudefiles",
       "description": "My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.",
       "source": "./plugins/dotclaudefiles"
-    },
-    {
-      "name": "lsp-toolkit",
-      "description": "Language Server Protocol personal toolkit for Claude Code. Encouraging the use of LSP for more precise code understanding and navigation.",
-      "source": "./plugins/lsp-toolkit"
     }
   ]
 }

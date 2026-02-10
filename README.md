@@ -7,7 +7,6 @@ My personal Claude Code plugins repository. Contains multiple plugins for differ
 | Plugin | Description |
 |--------|-------------|
 | `dotclaudefiles` | Commands, agents, skills, and configs I use daily |
-| `lsp-toolkit` | LSP-first methodology for precise code navigation |
 
 ## Install
 
@@ -15,9 +14,8 @@ My personal Claude Code plugins repository. Contains multiple plugins for differ
 # Add marketplace (once)
 /plugin marketplace add DieGopherLT/dotclaudefiles
 
-# Install plugins
+# Install plugin
 /plugin install dotclaudefiles@diegopher
-/plugin install lsp-toolkit@diegopher
 ```
 
 ## Setup Dotfiles (Optional)
@@ -51,14 +49,12 @@ They both look almost identical, Go version made by me includes a visual context
 ```bash
 /plugin marketplace update diegopher
 /plugin install dotclaudefiles@diegopher
-/plugin install lsp-toolkit@diegopher
 ```
 
 ## Uninstall
 
 ```bash
 /plugin uninstall dotclaudefiles@diegopher
-/plugin uninstall lsp-toolkit@diegopher
 ```
 
 ---
