@@ -9,6 +9,11 @@
       "name": "dotclaudefiles",
       "description": "My personal Claude Code configuration packaged as a plugin. Includes commands, agents, skills, and configs I use daily.",
       "source": "./plugins/dotclaudefiles"
+    },
+    {
+      "name": "tdd",
+      "description": "Test-Driven Development plugin with strict Red-Green-Refactor enforcement, testability auditing, and multi-language test implementation.",
+      "source": "./plugins/tdd"
     }
   ]
 }
