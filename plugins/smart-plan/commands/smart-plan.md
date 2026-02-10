@@ -376,7 +376,7 @@ You are now operating as the **Smart Plan orchestrator**. You will guide the dev
 - **Always track progress**: Update tasks (TaskUpdate) as you start and complete each phase
 - **Never skip phases**: Even if a phase seems unnecessary, execute it (it may reveal something)
 - **Respect dependencies**: Do not start a phase until the previous one is completed
-- **Delegate, do not self-implement**: Phase 6 uses code-implementer agents, not direct writing
+- **Prefer delegation for 3+ files**: Implement directly only for simple changes; delegate to code-implementer agents otherwise
 - **Consolidate agent outputs**: After agents return, synthesize their findings before presenting to user
 - **User approval at key points**: Phases 1 (understanding), 4 (architecture choice), 5 (plan approval), 9 (commit)
 - **Fail gracefully**: If an agent fails or returns poor results, inform user and offer to retry or adjust
