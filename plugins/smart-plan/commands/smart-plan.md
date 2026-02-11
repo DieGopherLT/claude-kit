@@ -1,13 +1,13 @@
 ---
-description: Workflow inteligente de 9 fases para desarrollo de features con agentes especializados, paralelizacion y analisis semantico via LSP.
+description: Workflow inteligente de 6 fases para desarrollo de features con agentes especializados, paralelizacion y analisis semantico via LSP. Incluye discovery, exploration, clarification, architecture, plan mode, y implementation. El plan generado incluye instrucciones para invocar /smart-plan:post-implementation al final (quality review, refactoring, finalization).
 argument-hint: "<feature description>"
-allowed-tools: Read, Edit, Write, Glob, Grep, Bash, LSP, LS, Task, TaskCreate, TaskUpdate, TaskList, TaskGet, EnterPlanMode, ExitPlanMode, AskUserQuestion, WebFetch, WebSearch
+allowed-tools: Read, Edit, Write, Glob, Grep, Bash, LSP, LS, Task, TaskCreate, TaskUpdate, TaskList, TaskGet, EnterPlanMode, ExitPlanMode, AskUserQuestion, WebFetch, WebSearch, Skill
 user-invocable: true
 ---
 
-# Smart Plan - 9-Phase Feature Development
+# Smart Plan - 6-Phase Feature Development + Post-Implementation
 
-You are now operating as the **Smart Plan orchestrator**. You will guide the development of a feature through 9 structured phases, delegating work to specialized agents and coordinating their outputs.
+Operate as the **Smart Plan orchestrator**. Guide the development of a feature through 6 structured phases, delegating work to specialized agents and coordinating their outputs. Phase 5 writes a plan that includes instructions to invoke `/smart-plan:post-implementation` after implementation (quality review, refactoring, finalization).
 
 **Feature request:** $ARGUMENTS
 
@@ -17,16 +17,13 @@ You are now operating as the **Smart Plan orchestrator**. You will guide the dev
 
 **Goal**: Understand the feature request and establish tracking.
 
-1. Create tasks (TaskCreate) for all 9 phases:
+1. Create tasks (TaskCreate) for all 6 phases:
    - Phase 1: Discovery
    - Phase 2: Codebase Exploration
    - Phase 3: Clarifying Questions
    - Phase 4: Architecture Design
    - Phase 5: Plan Mode
    - Phase 6: Implementation
-   - Phase 7: Quality Review
-   - Phase 8: Refactoring
-   - Phase 9: Finalization
 2. Set up task dependencies: each phase is blocked by the previous one
 3. Mark Phase 1 as in_progress
 4. Summarize your understanding of the feature to the user and confirm it is correct
@@ -161,24 +158,43 @@ You are now operating as the **Smart Plan orchestrator**. You will guide the dev
 
 ## Phase 5: Plan Mode
 
-**Goal**: Create a formal, approved implementation plan.
+**Goal**: Write a comprehensive, self-contained implementation plan.
 
 1. Mark Phase 5 as in_progress
-2. Call **EnterPlanMode** directly (do NOT launch a Plan sub-agent; YOU are the planner)
-3. Write a comprehensive plan to the plan file that includes:
+2. Call **EnterPlanMode** directly (do NOT launch a Plan sub-agent; operate as the planner directly)
+3. Write a comprehensive plan to `.claude/plan.md` that includes:
    - Feature summary and chosen architecture approach
-   - Complete task list with:
-     - Task ID, description, assigned files
-     - Dependencies (blocked-by / blocks)
-     - Parallelization group
-     - Recommended model (haiku/sonnet/opus)
+   - Complete implementation instructions with:
+     - Files to create and their purpose
+     - Files to modify and what changes to make
+     - Dependencies between files (which must exist before others)
+     - Parallelization groups (which files can be worked on simultaneously)
+     - Recommended model per task (haiku/sonnet/opus)
    - Execution order with parallel groups clearly marked
    - Dependency installation commands (if any)
-   - File creation/modification map per task
-   - Validation checkpoints between groups
+   - Validation checkpoints between groups (compile, test, lint)
+   - **CRITICAL**: Post-implementation procedure at the end:
+
+     ```markdown
+     ## Post-Implementation Procedure
+
+     After all implementation tasks are complete and the code compiles/builds successfully:
+
+     1. Invoke the post-implementation skill: /smart-plan:post-implementation
+
+     This will execute:
+     - Quality Review: 3 parallel reviewers (simplicity, bugs, conventions) with confidence >= 80%
+     - Refactoring: Automatic fixes for high-confidence findings
+     - Finalization: Feature documentation and optional commit
+
+     Do NOT skip this step. The post-implementation procedure is critical for code quality.
+     ```
+
 4. Call **ExitPlanMode** to request user approval
 5. If the user requests changes, modify the plan and re-submit
 6. Mark Phase 5 as completed after approval
+
+**Note**: After approval, the plan will be executed in a new session. That session will read the plan from `.claude/plan.md` and follow it step by step, including the post-implementation procedure at the end.
 
 ---
 
@@ -248,126 +264,7 @@ You are now operating as the **Smart Plan orchestrator**. You will guide the dev
 
 8. Mark Phase 6 as completed
 
----
-
-## Phase 7: Quality Review
-
-**Goal**: Find real issues in the implemented code.
-
-1. Mark Phase 7 as in_progress
-2. Get the list of all files created/modified during implementation
-3. Launch **3 code-reviewer agents in parallel**, each with a different focus:
-
-   **Reviewer 1 - Simplicity / DRY / Elegance**:
-
-   ```
-   Review the following files for code quality:
-   [list of files]
-
-   Focus: simplicity, DRY principle, code elegance, unnecessary complexity.
-   Only report findings with confidence >= 80%.
-   Include concrete fix suggestions for each finding.
-   ```
-
-   **Reviewer 2 - Bugs / Functional Correctness**:
-
-   ```
-   Review the following files for bugs and logic errors:
-   [list of files]
-
-   Focus: bugs, logic errors, edge cases, error handling, race conditions, null safety.
-   Only report findings with confidence >= 80%.
-   Include concrete fix suggestions for each finding.
-   ```
-
-   **Reviewer 3 - Conventions / Abstractions**:
-
-   ```
-   Review the following files for convention adherence:
-   [list of files]
-
-   Project conventions detected during exploration:
-   [key conventions summary]
-
-   Focus: naming conventions, architectural patterns, import organization, abstraction quality.
-   Only report findings with confidence >= 80%.
-   Include concrete fix suggestions for each finding.
-   ```
-
-4. Consolidate all findings (deduplicate overlapping issues)
-5. Filter: only keep findings with confidence >= 80%
-6. Present consolidated review to user
-7. Mark Phase 7 as completed
-
----
-
-## Phase 8: Refactoring
-
-**Goal**: Auto-fix review findings.
-
-1. Mark Phase 8 as in_progress
-2. If there are findings with confidence >= 80% from Phase 7:
-   - Launch **code-refactorer** agent with all findings:
-
-     ```
-     Apply the following corrections to the codebase:
-
-     [list of findings with confidence >= 80%, including file paths, line numbers, and suggested fixes]
-
-     After applying ALL corrections:
-     1. Run build/compile check
-     2. Run tests
-     3. Run linter
-
-     Report all changes made and validation results.
-     ```
-
-   - Review the refactorer's report
-   - If validation failed, present failures to user for decision
-3. If there are no findings >= 80%: skip this phase and inform user the code passed review
-4. Mark Phase 8 as completed
-
----
-
-## Phase 9: Finalization
-
-**Goal**: Wrap up, summarize, and optionally commit.
-
-1. Mark Phase 9 as in_progress
-2. Write the final summary to `.claude/features/<feature-name>.md` (derive a kebab-case name from the feature description):
-
-   ```markdown
-   # <Feature Name>
-
-   ## What Was Built
-   - [Feature description and scope]
-
-   ## Architecture Approach
-   - [Chosen approach and why]
-
-   ## Files Created
-   - [List with brief description of each]
-
-   ## Files Modified
-   - [List with brief description of changes]
-
-   ## Key Decisions Made
-   - [List of decisions from Phase 3 and Phase 4]
-
-   ## Review Results
-   - [Summary of review findings and fixes applied]
-
-   ## Dependencies Added
-   - [Any new packages installed]
-   ```
-
-3. Mark all phase tasks as completed
-4. Present the file path to the user along with a brief summary
-5. Ask the user if they want to commit the changes:
-   - If yes: follow the user's git conventions (conventional commits, staged specific files, single-line message max 96 chars)
-   - If no: inform user the changes are ready for manual review
-6. Suggest potential next steps (tests to add, documentation to write, related features)
-7. Mark Phase 9 as completed
+**Note**: The smart-plan orchestration ends here. The implementation plan written in Phase 5 includes instructions for post-implementation procedure (quality review, refactoring, finalization) that will be executed by whoever follows the plan.
 
 ---
 
@@ -378,6 +275,7 @@ You are now operating as the **Smart Plan orchestrator**. You will guide the dev
 - **Respect dependencies**: Do not start a phase until the previous one is completed
 - **Prefer delegation for 3+ files**: Implement directly only for simple changes; delegate to code-implementer agents otherwise
 - **Consolidate agent outputs**: After agents return, synthesize their findings before presenting to user
-- **User approval at key points**: Phases 1 (understanding), 4 (architecture choice), 5 (plan approval), 9 (commit)
+- **User approval at key points**: Phases 1 (understanding), 4 (architecture choice), 5 (plan approval)
+- **Phase 5 plan completeness**: The plan must be self-contained with all instructions needed for execution, including post-implementation procedure
 - **Fail gracefully**: If an agent fails or returns poor results, inform user and offer to retry or adjust
 - **Be transparent**: Show the user what is happening at each phase; do not work silently

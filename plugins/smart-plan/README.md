@@ -1,6 +1,6 @@
 # smart-plan
 
-Workflow inteligente de 9 fases para desarrollo de features con 6 agentes especializados, paralelizacion, analisis semantico via LSP, y quality gates automaticos.
+Workflow inteligente de 6+3 fases para desarrollo de features con 6 agentes especializados, paralelizacion, analisis semantico via LSP, y quality gates automaticos. Incluye 6 fases de planning (Discovery → Implementation) y 3 fases post-implementacion ejecutadas via skill separada.
 
 ## Instalacion
 
@@ -14,7 +14,7 @@ Workflow inteligente de 9 fases para desarrollo de features con 6 agentes especi
 /smart-plan <descripcion del feature>
 ```
 
-## Workflow de 9 Fases
+## Workflow de 6 Fases (Planning)
 
 | Fase | Nombre | Descripcion |
 |------|--------|-------------|
@@ -24,6 +24,15 @@ Workflow inteligente de 9 fases para desarrollo de features con 6 agentes especi
 | 4 | Architecture Design | 2-3 code-architect con enfoques distintos |
 | 5 | Plan Mode | Plan formal con dependencias, aprobado por usuario |
 | 6 | Implementation | code-implementer agents ejecutan en paralelo por grupos |
+
+**Nota**: El plan generado en Fase 5 incluye instrucciones para invocar `/smart-plan:post-implementation` al finalizar la implementacion.
+
+## Post-Implementation (3 Fases - Sesion Separada)
+
+Ejecutadas via skill `/smart-plan:post-implementation` despues de completar la implementacion:
+
+| Fase | Nombre | Descripcion |
+|------|--------|-------------|
 | 7 | Quality Review | 3 code-reviewer con focos distintos (confianza >= 80%) |
 | 8 | Refactoring | code-refactorer auto-corrige hallazgos + validacion |
 | 9 | Finalization | Resumen, commit opcional, proximos pasos |
