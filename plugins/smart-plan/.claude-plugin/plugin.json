@@ -1,6 +1,6 @@
 {
   "name": "smart-plan",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "Workflow inteligente de 6 fases para desarrollo de features con 6 agentes especializados, paralelizacion, analisis semantico via LSP. Incluye skill de post-implementacion reutilizable para quality review, refactoring automatico, y finalizacion.",
   "author": {
     "name": "Diego",
