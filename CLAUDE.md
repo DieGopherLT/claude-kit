@@ -4,319 +4,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is **dotclaudefiles** (formerly claude-kit), a Claude Code plugin repository containing custom commands, agents, skills, and configurations. It's designed to be installed as a plugin and distributed across devices, with local development happening in `~/.claude/` before promotion to the plugin.
+This is a **mono-repo for Claude Code plugins** containing three specialized plugins:
 
-## Development Workflow
+1. **dotclaudefiles** - Core productivity plugin (3 agents, 9 commands, 6 skills, hooks, output-styles)
+2. **smart-plan** - Intelligent 9-phase feature development workflow (6 agents, 1 command)
+3. **tdd** - Test-Driven Development automation (4 agents, 2 commands, 1 skill, language rules)
 
-The plugin uses a **development sandbox pattern**:
+Each plugin is independently installable and can be distributed across devices. Development happens in `~/.claude/` before promotion to the repository.
 
-1. **Local Development**: Create/modify resources in `~/.claude/` (commands, agents, skills)
-2. **Testing**: Test resources locally to ensure they work
-3. **Sync Detection**: Use `config-sync-analyzer` agent to detect new/modified resources
-4. **Promotion**: Copy validated resources to this repository (`/home/diego/config/claude/`)
-5. **Plugin Update**: Commit changes and update plugin via Claude Code plugin system
-6. **Cleanup**: Remove local copies (they now come from the installed plugin)
-
-### Using plugin-dev Resources (CRITICAL)
-
-**ALWAYS use the `plugin-dev` plugin for developing this repository.** It provides:
-
-- **Skills**: `/plugin-dev:create-plugin`, `/plugin-dev:skill-development`, `/plugin-dev:agent-development`, `/plugin-dev:command-development`, `/plugin-dev:hook-development`, `/plugin-dev:mcp-integration`, `/plugin-dev:plugin-settings`, `/plugin-dev:plugin-structure`
-- **Agents**: `plugin-validator`, `skill-reviewer`, `agent-creator`
-- **Best Practices**: Frontmatter guidelines, progressive disclosure, auto-discovery patterns
-
-**The plugin-dev plugin was created by the Claude Code team specifically to make plugin development easier and follow official best practices.**
-
-**WARNING**: Failing to use `plugin-dev` resources means ignoring official Claude Code plugin development standards. Always consult these resources when creating or modifying plugin components.
-
-### Mandatory Workflows
-
-- **Hook creation/modification**: When the user asks to create or modify a hook, invoke `/hookify:hookify` immediately before writing any code. The skill provides the correct structure and patterns.
-- **Post-change validation**: After finishing ANY plugin change (commands, agents, skills, hooks, config), run the `plugin-validator` agent to verify the plugin structure remains valid. Do not skip this step.
+Context-specific instructions are organized in `.claude/rules/` and loaded automatically when working on relevant files.
 
 ## Repository Structure
 
-```
-.
-├── agents/              # Custom Claude agents for specialized tasks
-├── commands/            # Slash commands for quick operations
-├── skills/              # Multi-step workflows and templates
-├── output-styles/       # Response formatting styles
-├── dotfiles/claude/     # Stow-managed configuration files
-│   ├── .claude/         # CLAUDE.md and language-specific rules
-│   └── .config/         # ccstatusline settings
-├── hooks/               # PostToolUse hooks for auto-format/lint
-├── scripts/             # Stow setup scripts (bash, fish, PowerShell)
-└── .claude-plugin/      # Plugin metadata and marketplace info
-```
-
-## Key Components
-
-### Agents (Specialized Subagents)
-
-Located in `agents/`, these are autonomous agents for specific tasks. Each agent follows frontmatter format with `name`, `description`, `tools`, `model`, and `color` fields. Explore the directory to discover available agents and their specialized capabilities.
-
-### Commands (Slash Commands)
-
-Located in `commands/`, these are user-invocable shortcuts for quick operations. Commands use YAML frontmatter with arguments, descriptions, and execution instructions. Browse the directory to see all available commands.
-
-### Skills (Multi-step Workflows)
-
-Located in `skills/`, these are complex workflows that may include supporting files (scripts, templates, references). Skills use `SKILL.md` format with frontmatter and progressive disclosure pattern. Check the directory for available workflows.
-
-### Dotfiles Management
-
-The `dotfiles/claude/` directory uses **GNU Stow** for symlink management:
-
-- **Source of truth**: Files in `dotfiles/claude/` override local versions
-- **Setup scripts**: `scripts/stow-claude.{sh,fish,ps1}` create symlinks to `$HOME`
-- **Automatic backups**: Existing files are backed up before symlinking
-- **Managed files**:
-  - `~/.claude/CLAUDE.md` → User preferences and code standards
-  - `~/.config/ccstatusline/settings.json` → Status line configuration
-  - Language-specific rules in `.claude/rules/`
-
-## Working with the Plugin
-
-### Installing the Plugin
+To see the current repository structure, run:
 
 ```bash
+tree -L 3 -I '.git|.claude' .
+```
+
+Key directories:
+
+- **`plugins/`**: Contains the 3 plugins (dotclaudefiles, smart-plan, tdd)
+- **`dotfiles/claude/`**: Stow-managed configuration files
+- **`scripts/`**: Stow setup scripts for bash, fish, and PowerShell
+
+## Plugin Descriptions
+
+### dotclaudefiles
+
+Core productivity plugin with daily-use commands, quality agents, and specialized workflows:
+
+- **Agents**: `consistency-auditor`, `dependency-docs-collector`, `dockerify`
+- **Commands**: `/claudify`, `/dry-run`, `/explain-like-senior`, `/git-context`, `/journal`, `/language-evaluation`, `/predict-issues`, `/refactor-conditional-jsx`, `/remove-comments`
+- **Skills**: `check-third-party-docs`, `create-pr`, `deep-reason`, `document`, `dropletify`, `typescript-advanced-types`
+- **Hooks**: Format dispatcher for auto-linting/formatting after code changes
+- **MCP Servers**: Sequential-thinking server for deep reasoning
+
+### smart-plan
+
+Intelligent 9-phase feature development workflow with LSP-powered semantic analysis:
+
+- **Workflow Phases**: Discovery → Exploration → Clarification → Architecture → Plan → Implementation → Review → Refactoring → Finalization
+- **Agents**: `code-explorer`, `code-indexer`, `code-architect`, `code-implementer`, `code-reviewer`, `code-refactorer`
+- **Command**: `/smart-plan <feature-description>`
+- **Key Features**: Parallel agent execution, LSP semantic analysis, confidence-scored reviews (≥80%), automatic refactoring
+
+### tdd
+
+Test-Driven Development automation with strict Red-Green-Refactor enforcement:
+
+- **Agents**: `testability-auditor`, `code-adapter`, `testing-deps-investigator`, `test-implementer`
+- **Commands**: `/add-testing`, `/tdd-feature`
+- **Skill**: `tdd-workflow`
+- **Language Rules**: Go, TypeScript/JavaScript, C# testing patterns and conventions
+
+## Choosing the Right Plugin
+
+**Use dotclaudefiles when:**
+
+- Doing code reviews, refactoring, or daily development tasks
+- Checking third-party documentation or integrating libraries
+- Creating pull requests with structured descriptions
+- Deep reasoning on complex architectural decisions
+- Dockerizing applications for deployment
+- Documenting patterns, problems, or decisions
+
+**Use smart-plan when:**
+
+- Implementing complex features that span multiple files/modules
+- Need LSP-powered semantic analysis of the codebase
+- Want parallel execution of exploration and implementation tasks
+- Require confidence-scored code reviews (≥80%)
+- Need automatic refactoring based on review findings
+
+**Use tdd when:**
+
+- Starting a new feature with test-first approach
+- Adding test coverage to existing modules
+- Need testability audit before writing tests
+- Want automated test dependency investigation
+- Require strict Red-Green-Refactor workflow enforcement
+
+## Installing Plugins
+
+Each plugin can be installed independently:
+
+```bash
+# Add marketplace (once)
 /plugin marketplace add https://github.com/DieGopherLT/dotclaudefiles diegopher
+
+# Install individual plugins
 /plugin install dotclaudefiles@diegopher
-```
-
-### Updating the Plugin
-
-After making changes to this repository:
-
-```bash
-cd /home/diego/config/claude
-git add <modified-files>
-git commit -m "Description of changes"
-git push
-
-# Update plugin
-/plugin marketplace update diegopher
-/plugin install dotclaudefiles@diegopher
-```
-
-### ⚠️ CRITICAL: Version Bump Rule (Ragnarök Prevention)
-
-**ALWAYS bump the version in `.claude-plugin/plugin.json` BEFORE committing changes.**
-
-If you commit without updating the version, Ragnarök will occur. This is not negotiable.
-
-```bash
-# 1. Edit .claude-plugin/plugin.json
-# 2. Increment version (e.g., 1.3.0 → 1.3.1 or 1.4.0)
-# 3. THEN commit
-git add .claude-plugin/plugin.json <other-files>
-git commit -m "chore: bump version to X.Y.Z - <description>"
-```
-
-Version bumping guidelines:
-- **Patch (1.3.0 → 1.3.1)**: Bug fixes, small tweaks, documentation updates
-- **Minor (1.3.0 → 1.4.0)**: New commands, agents, or skills
-- **Major (1.3.0 → 2.0.0)**: Breaking changes, major restructuring
-
-### Syncing Local Changes
-
-Use the `config-sync-analyzer` agent to detect local resources ready for promotion:
-
-```bash
-# The agent compares ~/.claude/ with this repository
-# Reports: new resources, modified resources, sync status
-# Provides copy commands to move resources to repo
+/plugin install smart-plan@diegopher
+/plugin install tdd@diegopher
 ```
 
 ## Configuration Files
 
-- **`.mcp.json`**: MCP server configurations (sequential-thinking)
-- **`.claude/settings.local.json`**: Plugin-specific settings
-- **`.claude-plugin/plugin.json`**: Plugin metadata (name, version, description)
+Each plugin has its own configuration:
+
+- **`plugins/<plugin-name>/.claude-plugin/plugin.json`**: Plugin metadata (name, version, description, keywords)
+- **`plugins/dotclaudefiles/.mcp.json`**: MCP server configurations (sequential-thinking server)
+- **`plugins/tdd/rules/*.md`**: Language-specific testing conventions (Go, TypeScript, C#)
+- **`.claude/settings.local.json`**: Plugin-specific settings (in repo root for local development)
 - **`.gitignore`**: Excludes `.claude/` directory (local development sandbox)
-
-## Important Notes
-
-### Excluded from Git
-
-The `.claude/` directory in the repository root is excluded (`.gitignore`) because it's the development sandbox. The actual configuration meant for distribution lives in `dotfiles/claude/.claude/`.
-
-### Symlinks to Watch For
-
-When using `config-sync-analyzer`, symlinks are automatically excluded:
-- `~/.claude/CLAUDE.md` (symlinked via stow)
-- `~/.config/ccstatusline/settings.json` (symlinked via stow)
-
-### System Files Never Synced
-
-These files in `~/.claude/` are system-managed and never part of the plugin:
-- `.credentials.json`, `claude.json`, `history.jsonl`, `settings.json`
-- Directories: `debug/`, `file-history/`, `downloads/`, `session-env/`, `shell-snapshots/`, `todos/`, `projects/`, `plugins/`, `ide/`, `statsig/`, `hooks/`, `config/`
-
-### Agent and Command Review
-
-After creating/modifying agents or commands, use the reviewer agents proactively:
-- `/agent-reviewer` for agent definitions
-- `/command-reviewer` for command definitions
-
-## Quality Standards
-
-When creating new resources:
-
-- **Agents**: Must include clear trigger examples, tool requirements, and specific instructions
-- **Commands**: Must have argument hints, clear descriptions, and user-invocable flag if needed
-- **Skills**: Must include step-by-step workflows, reference files/templates where applicable
-- **Naming**: Descriptive, intent-focused (avoid generic terms like handler, manager, helper)
-- **Documentation**: Token-efficient, focus on non-obvious information
-
-## Frontmatter Best Practices (Agents & Skills)
-
-### Language: Spanish (Español)
-
-**All agent and skill frontmatter descriptions MUST be written in Spanish.** This facilitates activation since Diego interacts with Claude in Spanish.
-
-### Description Format
-
-#### For Skills (Third Person)
-
-Skills must use third-person format with specific trigger phrases:
-
-```yaml
----
-name: skill-name
-description: Esta skill debe usarse cuando el usuario pide "frase específica 1", "frase específica 2", "frase específica 3", o menciona contextos relevantes. Proporciona [breve descripción de lo que ofrece].
----
-```
-
-**Characteristics:**
-
-- Start with "Esta skill debe usarse cuando el usuario pide..."
-- Include 5-8 specific phrases users would say (between quotes)
-- Add contextual mentions after "o menciona..."
-- End with value proposition ("Proporciona...")
-- Use concrete, action-oriented triggers
-
-**Good example:**
-
-```yaml
-description: Esta skill debe usarse cuando el usuario pide "dominar el sistema de tipos de TypeScript", "implementar tipos genéricos", "crear tipos condicionales", "refactorizar biblioteca TypeScript", "refactorizar tipados", "migrar de JavaScript a TypeScript", o menciona tipos mapeados, tipos literales de plantilla, o tipos utilitarios. Proporciona guía completa para construir aplicaciones type-safe.
-```
-
-**Bad example:**
-
-```yaml
-description: Use when working with TypeScript types.  # Wrong language, vague, no triggers
-```
-
-#### For Agents (Third Person)
-
-Agents also use third-person format with triggering conditions:
-
-```yaml
----
-name: agent-name
-description: Este agente debe usarse cuando [condición específica 1], [condición específica 2], o cuando se necesite [capacidad específica]. [Descripción de lo que hace].
----
-```
-
-**Characteristics:**
-
-- Start with "Este agente debe usarse cuando..."
-- Describe conditions, not user phrases (agents are invoked by Claude, not users)
-- Focus on scenarios and technical conditions
-- Be specific about what the agent analyzes, generates, or validates
-
-**Good example:**
-
-```yaml
-description: Este agente debe usarse cuando se crean nuevos módulos de 3+ archivos, se modifican 4+ archivos, o tras ejecutar un plan aprobado con 5+ archivos. Asegura que el código nuevo siga los patrones y convenciones del proyecto existente.
-```
-
-### Introspection for Activation Keywords
-
-When creating or refining frontmatter, engage in collaborative introspection:
-
-- **Ask Diego about real usage patterns**: "¿Cómo describirías esta tarea cuando me la pides?"
-- **Test trigger phrases**: Present 3-4 trigger phrase options and ask which feels most natural
-- **Explore related vocabulary**: "¿Qué otras palabras usarías para pedir esto?"
-- **Validate context mentions**: "Además de estas frases, ¿qué conceptos o términos técnicos mencionarías?"
-- **Iterate based on feedback**: After creating frontmatter, ask "¿Estas frases de activación capturan bien cuándo usarías esta skill/agent?"
-
-**Introspection benefits:**
-
-- Captures Diego's natural language patterns
-- Increases activation accuracy
-- Reduces false negatives (skill/agent not triggering when it should)
-- Creates more intuitive plugin experience
-
-### Progressive Disclosure (Skills Only)
-
-Skills should follow progressive disclosure:
-
-1. **SKILL.md body**: Core concepts, essential procedures (1,500-2,000 words ideal, <3,000 max)
-2. **references/**: Detailed patterns, advanced techniques, comprehensive docs (2,000-5,000+ words each)
-3. **examples/**: Working code, configuration files, templates
-4. **scripts/**: Validation, testing, automation utilities
-
-Keep frontmatter + core content lean; move detailed information to references.
-
-### Writing Style
-
-**Body content (Skills & Agents):**
-
-- Use imperative/infinitive form (verb-first instructions)
-- NOT second person ("you should...")
-- Objective, instructional language
-
-**Correct:**
-
-```markdown
-Para crear un hook, definir el tipo de evento.
-Validar la configuración antes de usar.
-```
-
-**Incorrect:**
-
-```markdown
-Debes crear un hook definiendo el tipo de evento.
-Tienes que validar la configuración.
-```
-
-### Validation Checklist
-
-Before finalizing agent/skill:
-
-- [ ] Description in Spanish
-- [ ] Third-person format ("Esta skill debe usarse cuando..." / "Este agente debe usarse cuando...")
-- [ ] Up to 8 specific trigger phrases (skills) or conditions (agents)
-- [ ] Contextual mentions included
-- [ ] Value proposition clear
-- [ ] Body uses imperative form
-- [ ] Progressive disclosure applied (skills)
-- [ ] Introspection performed with Diego for activation keywords
-
-## Stow Setup
-
-The repository uses GNU Stow for dotfile management. Run setup scripts from repository root:
-
-```bash
-# Bash
-./scripts/stow-claude.sh
-
-# Fish
-./scripts/stow-claude.fish
-
-# PowerShell
-.\scripts\stow-claude.ps1
-```
-
-Scripts will:
-1. Backup existing non-symlinked files with timestamp
-2. Create symlinks from `dotfiles/claude/` to `$HOME`
-3. Verify symlinks were created successfully
-4. Report any errors
 
 ## MCP Servers
 
-The plugin includes the `sequential-thinking` MCP server configured in `.mcp.json`. This enables deep reasoning for complex problems through dynamic thought processes.
+The `dotclaudefiles` plugin includes the `sequential-thinking` MCP server configured in `plugins/dotclaudefiles/.mcp.json`. This enables deep reasoning for complex problems through dynamic thought processes. Use the `/deep-reason` skill to leverage this capability with structured analysis and documentation generation.
